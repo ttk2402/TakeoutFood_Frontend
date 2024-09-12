@@ -13,10 +13,10 @@ const Product = ({id, name, price, description, url_image_product}) => {
           <p>{name}</p>
         </div>
         {/* <p className="product-desc">{description}</p> */}
-        <p className="product-price">{price}<span>đ</span></p>
+        <p className="product-price">{price.toLocaleString("vi-VN")}<span>đ</span></p>
       </div>
       <div className="product-action">
-        <button className="btn btn-info btn-outline">Add to Cart</button>
+        <button className="btn btn-info btn-outline">Thêm vào giỏ hàng</button>
       </div>
     </div>
   );

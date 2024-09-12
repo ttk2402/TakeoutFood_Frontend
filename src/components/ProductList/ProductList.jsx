@@ -86,7 +86,7 @@ const ProductList = () => {
               key={index}
               id={product.id}
               name={product.name}
-              price={product.price.toLocaleString("vi-VN")}
+              price={product.price}
               description={product.description}
               url_image_product={product.url_image_product}
             />
