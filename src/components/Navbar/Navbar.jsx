@@ -35,7 +35,58 @@ const Navbar = () => {
         "https://picture.miafood.vn/Gallery/ThumbPhone_20240807141354671.png",
     },
   ];
-
+  const items = [
+    {
+      id: 1,
+      quantity: 2,
+      price: 60000.0,
+      productid: 1,
+      productname: "Điều Rang Tỏi Ớt",
+      productprice: 30000,
+      url_image_product:
+        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+    },
+    {
+      id: 2,
+      quantity: 2,
+      price: 60000.0,
+      productid: 1,
+      productname: "Điều Rang Tỏi Ớt",
+      productprice: 30000,
+      url_image_product:
+        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+    },
+    {
+      id: 3,
+      quantity: 2,
+      price: 60000.0,
+      productid: 1,
+      productname: "Điều Rang Tỏi Ớt",
+      productprice: 30000,
+      url_image_product:
+        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+    },
+    {
+      id: 4,
+      quantity: 2,
+      price: 60000.0,
+      productid: 1,
+      productname: "Điều Rang Tỏi Ớt",
+      productprice: 30000,
+      url_image_product:
+        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+    },
+    {
+      id: 5,
+      quantity: 2,
+      price: 60000.0,
+      productid: 1,
+      productname: "Điều Rang Tỏi Ớt",
+      productprice: 30000,
+      url_image_product:
+        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+    },
+  ];
   const [quantity, setQuantity] = useState(0);
 
   return (
@@ -96,9 +147,48 @@ const Navbar = () => {
       <div className="navbar-end justify-around">
         <div className="indicator">
           <span className="indicator-item badge badge-info ">{quantity}</span>
-          <a href="/cart" className="btn btn-ghost">
+          {/* <a href="/cart" className="btn btn-ghost">
             <img src={cart} alt="" />
-          </a>
+          </a> */}
+          <div className="dropdown dropdown-hover">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <img src={cart} alt="" />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-96 p-2 shadow"
+            >
+              {items.map((item) => (
+                <li key={item.id} className="flex items-start p-2 w-full">
+                  <div>
+                    <img
+                      src={item.url_image_product}
+                      alt=""
+                      className="w-10 h-10"
+                    />
+                    <a
+                      href="/item"
+                      className="px-2.5 font-medium text-cyan-700"
+                    >
+                      {item.productname}
+                    </a>
+                    <span className="px-2.5">x{item.quantity}</span>
+                    <span className="px-2.5">
+                      {item.price.toLocaleString("vi-VN")}
+                    </span>
+                    <button
+                      className="btn ml-2.5"
+                      onClick={() => console.log("clicked")}
+                    >
+                      X
+                    </button>
+                  </div>
+                </li>
+              ))}
+              <p className="text-center border-2 py-1.5">Tổng tiền: </p>
+              <button className="btn my-2.5">Xem giỏ hàng</button>
+            </ul>
+          </div>
         </div>
         <div className="">
           <a href="/dangnhap" className="btn btn-ghost text-base">

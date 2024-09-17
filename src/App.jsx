@@ -16,12 +16,23 @@ import Header from "./components/Header/Header";
 import HomePage from "./pages/HomePage";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import Checkout from "./components/Checkout/Checkout";
+import ItemOrderList from "./components/ItemOrderList/ItemOrderList";
+import Order from "./components/Order/Order";
+import LoginPage from "./pages/LoginPage";
+import RegistryPage from "./pages/RegistryPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
     <div className="w-4/5 mx-auto">
-      <HomePage />
-      <ProductDetailPage />
+      {/* <HomePage /> */}
+      {/* <ProductDetailPage /> */}
+      {/* <Cart /> */}
+      {/* <Order /> */}
+      {/* <LoginPage /> */}
+      {/* <RegistryPage /> */}
+      <CartPage />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import ReceiveInfo from "../InfoReceive/ReceiveInfo";
 
 const Cart = () => {
   return (
-    <div className="w-full flex">
+    <div className="w-full flex my-10">
       <div className="w-2/3 border-2 border-white p-5 bg-slate-50">
         <ItemList />
       </div>

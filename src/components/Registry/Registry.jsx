@@ -3,9 +3,11 @@ import "flowbite";
 
 const Registry = () => {
   return (
-    <div className="max-w-96">
+    <div className="max-w-96 mx-auto my-10">
       <div className="py-5">
-        <p className="text-3xl font-bold text-center text-blue-500">Đăng ký tài khoản</p>
+        <p className="text-3xl font-bold text-center text-blue-500">
+          Đăng ký tài khoản
+        </p>
       </div>
       <div className="grid gap-6 mb-6 md:grid-cols-2">
         <div>
