@@ -1,33 +1,74 @@
-import React from "react";
-import logo  from '../../assets/logo.png'
+import React, { useContext } from "react";
+import logo from "../../assets/logo.png";
+import { StoreContext } from "../Context/StoreContext";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
+  const navigate = useNavigate();
+  const { isLogin, account, handleLogout } = useContext(StoreContext);
+
+  const handleAccountClick = (id) => {
+    navigate(`/tai-khoan/${id}`);
+  };
+
   return (
     <>
       <footer className="footer bg-base-200 text-base-content p-10">
         <aside>
-          <img src={logo} alt="" className="w-14 h-14"/>
-          <p>
-            Takeout Food
-            <br />
-            Providing delicious meals since 2024.
+          <img src={logo} alt="" className="w-14 h-14" />
+          <p className="text-sm font-bold">
+            Takeout Food <br />
+            <span className="font-semibold">
+              Providing delicious meals since 2024.
+            </span>
           </p>
         </aside>
         <nav>
-          <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Marketing</a>
-          <a className="link link-hover">Advertisement</a>
+          <h6 className="footer-title">Tài khoản</h6>
+          <a
+            className="link link-hover text-sm text-sm font-semibold"
+            onClick={() => handleAccountClick(account.id)}
+          >
+            Thông tin tài khoản
+          </a>
+          <a className="link link-hover text-sm font-semibold">
+            Lịch sử mua hàng
+          </a>
+          <a className="link link-hover text-sm font-semibold">Thông báo</a>
+
+          {isLogin ? (
+            <a
+              className="link link-hover text-sm font-semibold"
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </a>
+          ) : (
+            <Link
+              to="/dang-nhap"
+              className="link link-hover text-sm font-semibold"
+            >
+              Đăng nhập
+            </Link>
+          )}
         </nav>
         <nav>
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Jobs</a>
-          <a className="link link-hover">Press kit</a>
+          <h6 className="footer-title">Thông tin</h6>
+          <a className="link link-hover text-sm font-semibold">
+            Chính sách bảo mật
+          </a>
+          <a className="link link-hover text-sm font-semibold">
+            Thỏa thuận sử dụng
+          </a>
+          <a className="link link-hover text-sm font-semibold">
+            Chính sách đổi trả
+          </a>
+          <a className="link link-hover text-sm font-semibold">Bảng giá sỉ</a>
         </nav>
+
         <nav>
-          <h6 className="footer-title">Social</h6>
+          <h6 className="footer-title">Mạng xã hội</h6>
           <div className="grid grid-flow-col gap-4">
             <a>
               <svg
@@ -66,7 +107,7 @@ const Footer = () => {
         </nav>
       </footer>
       <p className="text-center bg-base-200 text-base-content pb-5">
-        Copyright © 2024 - All right reserved by Takeout Food Ltd
+        Copyright © 2024 - All right reserved by Takeout Food Ltd.
       </p>
     </>
   );

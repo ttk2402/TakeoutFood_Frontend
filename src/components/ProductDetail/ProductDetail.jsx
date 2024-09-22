@@ -1,65 +1,102 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { StoreContext } from "../Context/StoreContext";
+import { useNavigate } from "react-router-dom";
 
-const ProductDetail = () => {
-  const [amount, setAmount] = useState(1);
-  const product = {
-    id: 1,
-    name: "Điều Rang Tỏi Ớt",
-    price: 30000,
-    description: "",
-    url_image_product:
-      "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
+const ProductDetail = ({ id, name, price, description, url_image_product }) => {
+  const [quantity, setQuantity] = useState(1);
+  const { account, addItemFromDetail } = useContext(StoreContext);
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    const product = {
+      id,
+      name,
+      price,
+      url_image_product,
+    };
+    addItemFromDetail(product, quantity, account.id);
   };
 
+  const handleBuyNow = () => {
+    const product = {
+      id,
+      name,
+      price,
+      url_image_product,
+    };
+    addItemFromDetail(product, quantity, account.id);
+    navigate("/gio-hang");
+  };
+
+  useEffect(() => {
+    console.log(quantity);
+  }, [quantity]);
+
   return (
-    <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-center">
-      <div className="flex gap-6 lg:w-2/5">
-        <img
-          src={product.url_image_product}
-          alt=""
-          className="w-96 h-full aspect-square object-cover rounded-xl"
-        />
+    <div className="flex flex-col items-center mt-8 mb-16">
+      <div className="mx-auto p-5">
+        {" "}
+        <span className=" text-violet-600 font-semibold text-2xl">
+          Chi tiết sản phẩm
+        </span>
       </div>
-      {/* ABOUT */}
-      <div className="flex flex-col gap-4 lg:w-3/5">
-        <div>
-          <span className=" text-violet-600 font-semibold">
-            Chi tiết sản phẩm
-          </span>
-          <h1 className="text-3xl font-bold">{product.name}</h1>
+      <div className="flex flex-col justify-center lg:flex-row gap-16 lg:items-center">
+        <div className="flex gap-6 lg:w-2/5">
+          <img
+            src={url_image_product}
+            alt=""
+            className="w-72 h-full aspect-square object-cover rounded-xl"
+          />
         </div>
-        <h6 className="text-xl font-semibold text-red-500">
-          {product.price.toLocaleString("vi-VN")}
-          <span className="align-super text-[0.8em]">đ</span>
-        </h6>
-        <p className="text-gray-700">Thương hiệu: TAKEOUT FOOD</p>
-        <p className="text-gray-700">Thành phần: {product.description}</p>
-        <p className="text-gray-700">Hướng dẫn sử dụng: Dùng trực tiếp</p>
-        <p className="text-gray-700">Xuất xứ: Việt Nam</p>
-        <p className="text-gray-700">Tình trạng: Còn hàng</p>
-        <p className="border-b"></p>
-        <div className="flex justify-start items-center gap-12">
-          <div className="flex flex-row items-center">
+        {/* ABOUT */}
+        <div className="flex flex-col gap-4 lg:w-3/5">
+          <div>
+            <h1 className="text-xl font-bold">{name}</h1>
+          </div>
+          <h6 className="text-base font-medium">
+            Giá: {price}
+            <span className="align-super text-[0.8em]">đ</span>
+          </h6>
+          <p className="text-base font-medium">Thương hiệu: TAKEOUT FOOD</p>
+          <p className="text-base font-medium">Thành phần: {description}</p>
+          <p className="text-base font-medium">
+            Hướng dẫn sử dụng: Dùng trực tiếp
+          </p>
+          <p className="text-base font-medium">Xuất xứ: Việt Nam</p>
+          <p className="text-base font-medium">Tình trạng: Còn hàng</p>
+          <p className="border-b"></p>
+          <div className="flex justify-start items-center gap-12">
+            <div className="flex flex-row items-center">
+              <button
+                className="bg-gray-200 px-3.5 py-1 rounded-lg text-violet-800 text-xl font-bold"
+                onClick={() => setQuantity((prev) => prev - 1)}
+              >
+                -
+              </button>
+              <span className="py-4 px-6 rounded-lg">{quantity}</span>
+              <button
+                className="bg-gray-200 px-2.5 py-1 rounded-lg text-violet-800 text-xl font-bold"
+                onClick={() => setQuantity((prev) => prev + 1)}
+              >
+                +
+              </button>
+            </div>
             <button
-              className="bg-gray-200 py-2 px-5 rounded-lg text-violet-800 text-2xl"
-              onClick={() => setAmount((prev) => prev - 1)}
+              className="btn btn-sm py-3 bg-violet-800 text-white font-semibold px-2.5 rounded-xl h-full"
+              onClick={handleAddToCart}
             >
-              -
+              Thêm vào giỏ hàng
             </button>
-            <span className="py-4 px-6 rounded-lg">{amount}</span>
             <button
-              className="bg-gray-200 py-2 px-4 rounded-lg text-violet-800 text-2xl"
-              onClick={() => setAmount((prev) => prev + 1)}
+              className="btn btn-sm py-3 bg-violet-800 text-white font-semibold px-2.5 rounded-xl h-full"
+              onClick={handleBuyNow}
             >
-              +
+              Mua ngay
             </button>
           </div>
-          <button className="btn bg-violet-800 text-white font-semibold py-3 px-3.5 rounded-xl h-full">
-            Thêm vào giỏ hàng
-          </button>
-          <button className="btn bg-violet-800 text-white font-semibold py-3 px-3.5 rounded-xl h-full">
-            Mua ngay
-          </button>
         </div>
       </div>
     </div>

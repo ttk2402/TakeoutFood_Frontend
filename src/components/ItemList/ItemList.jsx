@@ -1,70 +1,19 @@
 import React from "react";
 import Item from "../Item/Item";
 
-const ItemList = () => {
-  const items = [
-    {
-      id: 1,
-      quantity: 2,
-      price: 60000.0,
-      productid: 1,
-      productname: "Điều Rang Tỏi Ớt",
-      productprice: 30000,
-      url_image_product:
-        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
-    },
-    {
-      id: 2,
-      quantity: 2,
-      price: 60000.0,
-      productid: 1,
-      productname: "Điều Rang Tỏi Ớt",
-      productprice: 30000,
-      url_image_product:
-        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
-    },
-    {
-      id: 3,
-      quantity: 2,
-      price: 60000.0,
-      productid: 1,
-      productname: "Điều Rang Tỏi Ớt",
-      productprice: 30000,
-      url_image_product:
-        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
-    },
-    {
-      id: 4,
-      quantity: 2,
-      price: 60000.0,
-      productid: 1,
-      productname: "Điều Rang Tỏi Ớt",
-      productprice: 30000,
-      url_image_product:
-        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
-    },
-    {
-      id: 5,
-      quantity: 2,
-      price: 60000.0,
-      productid: 1,
-      productname: "Điều Rang Tỏi Ớt",
-      productprice: 30000,
-      url_image_product:
-        "https://picture.miafood.vn/Gallery/ThumbPhone_20240608031600672.png",
-    },
-  ];
+const ItemList = ({ items }) => {
+  const totalPrice = items.reduce((total, item) => total + item.price, 0);
 
   return (
     <div className="item-list flex flex-col w-full">
       <table className="table">
         <thead>
           <tr>
-            <th className="text-center">Product</th>
-            <th>Price</th>
-            <th className="text-center">Quantity</th>
-            <th className="text-center">Total Price</th>
-            <th className="text-center">Action</th>
+            <th className="text-center font-bold text-sm">Sản phẩm</th>
+            <th className="text-center font-bol text-sm">Giá</th>
+            <th className="text-center font-bold text-sm">Số lượng</th>
+            <th className="text-center font-bold text-sm">Tổng giá tiền</th>
+            <th className="text-center font-bold text-sm"></th>
           </tr>
         </thead>
 
@@ -76,16 +25,19 @@ const ItemList = () => {
                 id={item.id}
                 quantity={item.quantity}
                 price={item.price}
-                productid={item.productid}
-                productname={item.productname}
-                productprice={item.productprice}
-                url_image_product={item.url_image_product}
+                productid={item.productId}
+                productname={item.productName}
+                productprice={item.productPrice}
+                url_image_product={item.productImage}
               />
             );
           })}
         </tbody>
       </table>
-      
+      {/* <div className="text-center">
+        <span className="font-bold text-base mr-5">Tổng cộng:</span>
+        <span className="font-bold text-base">{totalPrice.toLocaleString("vi-VN")}đ</span>
+      </div> */}
     </div>
   );
 };

@@ -1,39 +1,35 @@
-import { React } from "react";
+import { React, useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import Product from "./components/Product/Product";
-import ProductList from "./components/ProductList/ProductList";
-import Category from "./components/Category/Category";
-import CategoryList from "./components/CategoryList/CategoryList";
+import Home from "./pages/Home";
 import Login from "./components/Login/Login";
+import CategoryList from "./components/CategoryList/CategoryList";
 import Registry from "./components/Registry/Registry";
-import Item from "./components/Item/Item";
-import ItemList from "./components/ItemList/ItemList";
-import Cart from "./components/Cart/Cart";
-import ReceiveInfo from "./components/InfoReceive/ReceiveInfo";
-import Title from "./components/Title/Title";
-import Header from "./components/Header/Header";
-import HomePage from "./pages/HomePage";
+import Cart from "./pages/Cart";
+import ProductCategory from "./pages/ProductCategory";
+import ProductAll from "./pages/ProductAll";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductDetailPage from "./pages/ProductDetailPage";
-import Checkout from "./components/Checkout/Checkout";
-import ItemOrderList from "./components/ItemOrderList/ItemOrderList";
-import Order from "./components/Order/Order";
-import LoginPage from "./pages/LoginPage";
-import RegistryPage from "./pages/RegistryPage";
-import CartPage from "./pages/CartPage";
+import AccountDetail from "./components/AccountDetail/AccountDetail";
 
 function App() {
   return (
-    <div className="w-4/5 mx-auto">
-      {/* <HomePage /> */}
-      {/* <ProductDetailPage /> */}
-      {/* <Cart /> */}
-      {/* <Order /> */}
-      {/* <LoginPage /> */}
-      {/* <RegistryPage /> */}
-      <CartPage />
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/trang-chu" element={<Home />} />
+        <Route path="/dang-nhap" element={<Login />} />
+        <Route path="/dang-ky" element={<Registry />} />
+        <Route path="/danh-muc/:categoryID" element={<ProductCategory />} />
+        <Route path="/san-pham/:productID" element={<ProductDetailPage />} />
+        <Route path="/gio-hang" element={<Cart />} />
+        <Route path="/san-pham" element={<ProductAll />} />
+        <Route path="/tai-khoan/:accountID" element={<AccountDetail />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }
 

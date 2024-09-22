@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../components/Header/Header";
 import Title from "../components/Title/Title";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
-import ProductList from '../components/ProductList/ProductList'
+import ProductList from "../components/ProductList/ProductList";
 import CategoryList from "../components/CategoryList/CategoryList";
+import { StoreContext } from "../components/Context/StoreContext";
 
 const Home = () => {
+
+  const { products } = useContext(StoreContext);
+
   return (
     <>
-      <Navbar />
       <Header />
       <Title />
       <CategoryList />
-      <ProductList />
-      <Footer />
+      <ProductList products={products}/>
     </>
   );
 };

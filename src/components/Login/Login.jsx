@@ -1,35 +1,11 @@
-import React from "react";
-import { useState } from "react";
+import React, { useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { StoreContext } from "../Context/StoreContext";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:9093/api/account/login",
-        {
-          username: username,
-          password: password,
-        }
-      );
-
-      // Xử lý khi đăng nhập thành công
-      console.log("Đăng nhập thành công:", response.data);
-
-      // Ví dụ: lưu token vào localStorage hoặc state
-      // localStorage.setItem("token", response.data.token);
-    } catch (error) {
-      // Xử lý khi đăng nhập thất bại
-      if (error.response) {
-        console.error("Lỗi từ server:", error.response.data);
-      } else {
-        console.error("Lỗi kết nối:", error.message);
-      }
-    }
-  };
+  const { username, setUsername, password, setPassword, handleLogin } = useContext(StoreContext);
+  
 
   return (
     <div className="max-w-96 mx-auto my-10">

@@ -10,7 +10,7 @@ const ItemOrder = ({id, quantity, price, productid, productname, productprice, u
             <div className="mask mask-squircle h-12 w-12">
               <img
                 src={url_image_product}
-                alt="Avatar Tailwind CSS Component"
+                alt=""
               />
             </div>
           </div>
