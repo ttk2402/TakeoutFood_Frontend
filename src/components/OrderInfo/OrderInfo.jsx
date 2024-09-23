@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { StoreContext } from "../Context/StoreContext";
 
 const ReceiveInfo = () => {
+  const { account, fetchItemData } = useContext(StoreContext);
   const [selectedRadio, setSelectedRadio] = useState("1");
 
   const handleRadioChange = (event) => {
@@ -11,15 +13,15 @@ const ReceiveInfo = () => {
 
   const [selectedProvince, setSelectedProvince] = useState({
     id: "0",
-    name: "",
+    name: "---Vui lòng chọn---",
   });
   const [selectedDistrict, setSelectedDistrict] = useState({
     id: "0",
-    name: "",
+    name: "---Vui lòng chọn---",
   });
   const [selectedWard, setSelectedWard] = useState({
     id: "0",
-    name: "",
+    name: "---Vui lòng chọn---",
   });
 
   const [street, setStreet] = useState("");
@@ -32,13 +34,14 @@ const ReceiveInfo = () => {
 
   useEffect(() => {
     const fetchProvinces = async () => {
+      /* Gọi API lấy danh sách tỉnh */
       try {
         const response = await axios.get(
           "https://vapi.vnappmob.com/api/province/"
         );
         setProvinces(response.data.results);
       } catch (error) {
-        console.error("Lỗi khi xóa item:", error);
+        console.error("Lỗi khi gọi API lấy tỉnh, thành phố:", error);
       }
     };
     fetchProvinces();
@@ -48,13 +51,15 @@ const ReceiveInfo = () => {
     const provinceId = event.target.value;
     const provinceName = event.target.options[event.target.selectedIndex].text;
     setSelectedProvince({ id: provinceId, name: provinceName });
-    
+    /* Gọi API lấy danh sách quận, huyện với tham số ID của tỉnh đã chọn */
     try {
-      const response = await axios.get(`https://vapi.vnappmob.com/api/province/district/${provinceId}`);
+      const response = await axios.get(
+        `https://vapi.vnappmob.com/api/province/district/${provinceId}`
+      );
       setDistricts(response.data.results);
       setWards([]);
     } catch (error) {
-      console.error("Lỗi khi lấy quận:", error);
+      console.error("Lỗi khi gọi API lấy quận, huyện:", error);
     }
   };
 
@@ -62,12 +67,14 @@ const ReceiveInfo = () => {
     const districtId = event.target.value;
     const districtName = event.target.options[event.target.selectedIndex].text;
     setSelectedDistrict({ id: districtId, name: districtName });
-    
+    /* Gọi API lấy danh sách xã, phường với tham số ID của quận, huyện đã chọn */
     try {
-      const response = await axios.get(`https://vapi.vnappmob.com//api/province/ward/${districtId}`);
+      const response = await axios.get(
+        `https://vapi.vnappmob.com//api/province/ward/${districtId}`
+      );
       setWards(response.data.results);
     } catch (error) {
-      console.error("Lỗi khi lấy quận:", error);
+      console.error("Lỗi khi gọi API lấy xã, phường:", error);
     }
   };
 
@@ -77,18 +84,51 @@ const ReceiveInfo = () => {
     setSelectedWard({ id: wardId, name: wardName });
   };
 
-  const handleSubmit = () => {
-    const info = {
-      Province: selectedProvince.name,
-      District: selectedDistrict.name,
-      Ward: selectedWard.name,
-      Street: street,
-      PhoneNumber: phone,
-      RecipientName: name,
-      CheckoutID: selectedRadio,
-    };
+  const handleSubmit = async () => {
+    /* Gọi API để thêm OrderInfo để có OrderInfoID truyền cho API thêm Order */
+    try {
+      const response = await axios.post(
+        "http://localhost:9094/api/delivery_information/add",
+        {
+          recipientName: name,
+          phoneNumber: phone,
+          commune: selectedWard.name,
+          district: selectedDistrict.name,
+          province: selectedProvince.name,
+          description: street,
+        }
+      );
+      const checkoutID = selectedRadio;
+      const orderInfoID = response.data.id;
+      console.log(
+        "checkoutID: " + checkoutID + "\norderInfoID: " + orderInfoID
+      );
+      addNewOrder(checkoutID, orderInfoID);
+    } catch (error) {
+      console.error("Lỗi khi gọi API thêm thông tin Order:", error);
+    }
+  };
 
-    console.log("Thông tin đặt hàng:", info);
+  const addNewOrder = async (checkoutID, orderInfoID) => {
+    /* Gọi API để thêm Order với tham số CheckoutID và OrderInfoID */
+    try {
+      const response = await axios.post(
+        `http://localhost:9094/api/order/add/${checkoutID}/${orderInfoID}`,
+        {
+          accountId: account.id,
+        }
+      );
+      console.log(response.data);
+      /* Cập nhật lại danh sách Item */
+      fetchItemData(account.id);
+      /* Thiết lập lại giá trị ban đầu cho các Input, Radio */
+      setStreet("");
+      setPhone("");
+      setName("");
+      setSelectedRadio("1");
+    } catch (error) {
+      console.error("Lỗi khi gọi API thêm Order:", error);
+    }
   };
 
   return (
@@ -269,13 +309,15 @@ const ReceiveInfo = () => {
             htmlFor="default-radio-2"
             className="text-sm font-bold ms-2 font-medium text-gray-900 dark:text-gray-300"
           >
-            Chuyển khoản Banking
+            Chuyển khoản ngân hàng
           </label>
         </div>
       </div>
       <div className="flex justify-center mt-6">
-        <button onClick={handleSubmit}
-        className="text-white font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button
+          onClick={handleSubmit}
+          className="text-white font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
           Tiếp tục đặt hàng
         </button>
       </div>
