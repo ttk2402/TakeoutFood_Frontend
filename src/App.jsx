@@ -12,6 +12,7 @@ import ProductAll from "./pages/ProductAll";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import AccountDetail from "./components/AccountDetail/AccountDetail";
+import Order from "./components/Order/Order";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/gio-hang" element={<Cart />} />
         <Route path="/san-pham" element={<ProductAll />} />
         <Route path="/tai-khoan/:accountID" element={<AccountDetail />} />
+        <Route path="/don-hang" element={<Order />} />
       </Routes>
       <Footer />
     </>

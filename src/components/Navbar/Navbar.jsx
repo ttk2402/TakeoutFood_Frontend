@@ -38,6 +38,10 @@ const Navbar = () => {
     navigate(`/tai-khoan/${id}`);
   };
 
+  const handleOrderClick = () => {
+    navigate("/don-hang");
+  };
+
   return (
     <div className="navbar">
       <div className="navbar-start w-1/5 justify-start">
@@ -190,7 +194,7 @@ const Navbar = () => {
                   <p>Thông tin tài khoản</p>
                 </div>
               </li>
-              <li className="w-full">
+              <li className="w-full" onClick={handleOrderClick}>
                 <div>
                   <img src={bag} alt="" />
                   <p>Quản lý đơn hàng</p>
