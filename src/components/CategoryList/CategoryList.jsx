@@ -8,7 +8,7 @@ const CategoryList = () => {
   const { categories } = useContext(StoreContext);
 
   return (
-    <div className="flex justify-around flex-wrap">
+    <div className="flex justify-around flex-wrap mb-5">
       {categories.map((category, index) => {
         return (
           <Category

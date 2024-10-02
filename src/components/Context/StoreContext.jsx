@@ -14,6 +14,9 @@ const StoreContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [productInCategory, setProductInCategory] = useState([]);
   const [items, setItems] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [checkouts, setCheckouts] = useState([]);
+  const [orderStatus, setOrderStatus] = useState([]);
 
   useEffect(() => {
     const savedAccount = localStorage.getItem("account");
@@ -25,11 +28,13 @@ const StoreContextProvider = (props) => {
     }
     fetchCategoryData();
     fetchProductData();
+    fetchCheckoutData();
   }, []);
 
   useEffect(() => {
     if (isLogin) {
       fetchItemData(account.id);
+      fetchOrderData(account.id);
     }
   }, [isLogin]);
 
@@ -39,7 +44,7 @@ const StoreContextProvider = (props) => {
       const response = await axios.get("http://localhost:9091/api/category/");
       setCategories(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Lỗi khi gọi API lấy danh sách danh mục:", error);
     }
   };
 
@@ -49,7 +54,7 @@ const StoreContextProvider = (props) => {
       const response = await axios.get("http://localhost:9091/api/product/");
       setProducts(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Lỗi khi gọi API lấy danh sách sản phẩm:", error);
     }
   };
 
@@ -61,10 +66,40 @@ const StoreContextProvider = (props) => {
       );
       setItems(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error(
+        "Lỗi khi gọi API lấy danh sách item trong giỏ hàng:",
+        error
+      );
     }
   };
 
+  /* Lấy dữ liệu đơn hàng và xử lý liên quan đến đơn hàng */
+  const fetchOrderData = async (accountID) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9094/api/order/account/${accountID}`
+      );
+      setOrders(response.data);
+    } catch (error) {
+      console.error(
+        "Lỗi khi gọi API lấy danh sách đơn hàng của người dùng:",
+        error
+      );
+    }
+  };
+
+  /* Lấy dữ liệu phương thức thanh toán */
+  const fetchCheckoutData = async () => {
+    try {
+      const response = await axios.get("http://localhost:9094/api/checkout/");
+      setCheckouts(response.data);
+    } catch (error) {
+      console.error(
+        "Lỗi khi gọi API lấy danh sách phương thức thanh toán:",
+        error
+      );
+    }
+  };
   /* Lấy dữ liệu sản phẩm theo danh mục */
   const fetchProductDataByCategory = async (categoryID) => {
     try {
@@ -73,7 +108,10 @@ const StoreContextProvider = (props) => {
       );
       setProductInCategory(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error(
+        "Lỗi khi gọi API lấy danh sách sản phẩm theo danh mục:",
+        error
+      );
     }
   };
 
@@ -94,7 +132,7 @@ const StoreContextProvider = (props) => {
         );
         console.log("Item đã thêm rồi, tăng số lượng thêm 1", response.data);
       } catch (error) {
-        console.error("Lỗi khi cập nhật item:", error);
+        console.error("Lỗi khi gọi API cập nhật item:", error);
       }
     } else {
       try {
@@ -111,7 +149,7 @@ const StoreContextProvider = (props) => {
         );
         console.log(response.data);
       } catch (error) {
-        console.error("Lỗi khi thêm mới item:", error);
+        console.error("Lỗi khi gọi API thêm mới item:", error);
       }
     }
     fetchItemData(account.id);
@@ -134,7 +172,7 @@ const StoreContextProvider = (props) => {
         );
         console.log("Item đã thêm rồi, tăng số lượng thêm 1", response.data);
       } catch (error) {
-        console.error("Lỗi khi cập nhật item:", error);
+        console.error("Lỗi khi gọi API cập nhật item:", error);
       }
     } else {
       const updateQuantity = quantity;
@@ -153,7 +191,7 @@ const StoreContextProvider = (props) => {
         );
         console.log(response.data);
       } catch (error) {
-        console.error("Lỗi khi thêm mới item:", error);
+        console.error("Lỗi khi gọi API thêm mới item:", error);
       }
     }
     fetchItemData(account.id);
@@ -168,7 +206,7 @@ const StoreContextProvider = (props) => {
       console.log(response.data);
       setItems(items.filter((item) => item.id !== itemID));
     } catch (error) {
-      console.error("Lỗi khi xóa item:", error);
+      console.error("Lỗi khi gọi API xóa item:", error);
     }
     fetchItemData(account.id);
   };
@@ -199,7 +237,7 @@ const StoreContextProvider = (props) => {
         setPassword("");
       }
     } catch (error) {
-      console.error("Lỗi khi đăng nhập:", error);
+      console.error("Lỗi khi gọi API đăng nhập:", error);
     }
   };
 
@@ -212,6 +250,8 @@ const StoreContextProvider = (props) => {
     setItems([]);
     navigate("/");
   };
+
+  /* Dành cho giao diện quản trị */
 
   const contextValue = {
     isLogin,
@@ -228,11 +268,14 @@ const StoreContextProvider = (props) => {
     products,
     productInCategory,
     items,
+    orders,
+    checkouts,
     addItem,
     addItemFromDetail,
     deleteItem,
     fetchProductDataByCategory,
     fetchItemData,
+    fetchOrderData,
   };
 
   return (

@@ -4,7 +4,7 @@ import axios from "axios";
 import { StoreContext } from "../Context/StoreContext";
 
 const ReceiveInfo = () => {
-  const { account, fetchItemData } = useContext(StoreContext);
+  const { account, fetchItemData, fetchOrderData } = useContext(StoreContext);
   const [selectedRadio, setSelectedRadio] = useState("1");
 
   const handleRadioChange = (event) => {
@@ -121,6 +121,8 @@ const ReceiveInfo = () => {
       console.log(response.data);
       /* Cập nhật lại danh sách Item */
       fetchItemData(account.id);
+      /* Cập nhật lại danh sách Order */
+      fetchOrderData(account.id);
       /* Thiết lập lại giá trị ban đầu cho các Input, Radio */
       setStreet("");
       setPhone("");

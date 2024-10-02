@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import Header from "../components/Header/Header";
 import Title from "../components/Title/Title";
-import ProductList from "../components/ProductList/ProductList";
 import CategoryList from "../components/CategoryList/CategoryList";
 import { StoreContext } from "../components/Context/StoreContext";
+import ProductInHome from "../components/ProductInHome/ProductInHome";
 
-const Home = () => {
+const HomePage = () => {
 
   const { products } = useContext(StoreContext);
 
@@ -14,9 +14,9 @@ const Home = () => {
       <Header />
       <Title />
       <CategoryList />
-      <ProductList products={products}/>
+      <ProductInHome />
     </>
   );
 };
 
-export default Home;
+export default HomePage;

@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import { StoreContext } from "../components/Context/StoreContext";
 import ProductList from "../components/ProductList/ProductList";
 
-const ProductCategory = () => {
-  const { account, fetchProductDataByCategory, productInCategory } = useContext(StoreContext);
+const CategoryPage = () => {
+  const { account, fetchProductDataByCategory, productInCategory } =
+    useContext(StoreContext);
   const { categoryID } = useParams(); // Get the category ID from the URL
   const [selectedSort, setSelectedSort] = useState("0");
   const [sortedProducts, setSortedProducts] = useState([...productInCategory]);
@@ -41,19 +42,33 @@ const ProductCategory = () => {
 
   return (
     <div className="mb-10">
-      <div className="max-w-48 mx-auto">
-        <select
-          id="ortProduct"
-          className="bg-gray-50 border rounded border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          value={selectedSort}
-          onChange={handleSelectSort}
-        >
-          <option value="0">Mặc định</option>
-          <option value="1">Tên sản phẩm (A - Z)</option>
-          <option value="2">Tên sản phẩm (Z - A)</option>
-          <option value="3">Giá (thấp đến cao)</option>
-          <option value="4">Giá (cao đến thấp)</option>
-        </select>
+      {/* Select for sorting products */}
+      <div className="flex justify-end items-center">
+        <p className="mr-2 text-sm font-medium">Sắp xếp:</p>
+        <div className="w-48">
+          <select
+            id="sortProduct"
+            className="w-full text-sm font-semibold bg-gray-50 border rounded border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            value={selectedSort}
+            onChange={handleSelectSort}
+          >
+            <option value="0" className="text-sm font-semibold">
+              Mặc định
+            </option>
+            <option value="1" className="text-sm font-semibold">
+              Tên sản phẩm (A - Z)
+            </option>
+            <option value="2" className="text-sm font-semibold">
+              Tên sản phẩm (Z - A)
+            </option>
+            <option value="3" className="text-sm font-semibold">
+              Giá (thấp đến cao)
+            </option>
+            <option value="4" className="text-sm font-semibold">
+              Giá (cao đến thấp)
+            </option>
+          </select>
+        </div>
       </div>
       <div>
         <ProductList products={sortedProducts} />
@@ -62,4 +77,4 @@ const ProductCategory = () => {
   );
 };
 
-export default ProductCategory;
+export default CategoryPage;
