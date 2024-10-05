@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 const ProductDetailPage = () => {
   const { productID } = useParams(); // Get the category ID from the URL
@@ -24,6 +26,7 @@ const ProductDetailPage = () => {
 
   return (
     <>
+      <Navbar />
       <ProductDetail
         id={product.id}
         name={product.name}
@@ -31,6 +34,7 @@ const ProductDetailPage = () => {
         description={product.description}
         url_image_product={product.url_image_product}
       />
+      <Footer />
     </>
   );
 };

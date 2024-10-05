@@ -4,17 +4,18 @@ import Title from "../components/Title/Title";
 import CategoryList from "../components/CategoryList/CategoryList";
 import { StoreContext } from "../components/Context/StoreContext";
 import ProductInHome from "../components/ProductInHome/ProductInHome";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 const HomePage = () => {
-
-  const { products } = useContext(StoreContext);
-
   return (
     <>
+      <Navbar />
       <Header />
       <Title />
       <CategoryList />
       <ProductInHome />
+      <Footer />
     </>
   );
 };

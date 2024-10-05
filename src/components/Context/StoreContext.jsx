@@ -19,8 +19,8 @@ const StoreContextProvider = (props) => {
   const [orderStatus, setOrderStatus] = useState([]);
 
   useEffect(() => {
-    const savedAccount = localStorage.getItem("account");
-    const savedIsLogin = localStorage.getItem("isLogin");
+    const savedAccount = sessionStorage.getItem("account");
+    const savedIsLogin = sessionStorage.getItem("isLogin");
 
     if (savedAccount && savedIsLogin === "true") {
       setAccount(JSON.parse(savedAccount));
@@ -224,13 +224,18 @@ const StoreContextProvider = (props) => {
       const accountInfo = response.data;
       if (accountInfo.id != null) {
         console.log("Đăng nhập thành công:", accountInfo);
-        localStorage.setItem("isLogin", true);
-        localStorage.setItem("account", JSON.stringify(accountInfo));
+        sessionStorage.setItem("isLogin", true);
+        sessionStorage.setItem("account", JSON.stringify(accountInfo));
         setIsLogin(true);
         setAccount(accountInfo);
         setUsername("");
         setPassword("");
-        navigate("/");
+        if(accountInfo.role.role === "CUSTOMER"){
+          navigate("/");
+        }
+        else{
+          navigate("/quan-tri/");
+        }
       } else {
         console.log("Tài khoản hoặc mật khẩu không chính xác.");
         setUsername("");
@@ -243,8 +248,8 @@ const StoreContextProvider = (props) => {
 
   /* Đăng xuất */
   const handleLogout = () => {
-    localStorage.removeItem("isLogin");
-    localStorage.removeItem("account");
+    sessionStorage.removeItem("isLogin");
+    sessionStorage.removeItem("account");
     setIsLogin(false);
     setAccount(null);
     setItems([]);

@@ -13,36 +13,58 @@ import React, { useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import profile_user from "../../../assets/profile-user.png";
 
 const SIDEBAR_ITEMS = [
-  { name: "Tổng quan", icon: BarChart2, color: "#6366f1", href: "/" },
+  {
+    name: "Tổng quan",
+    icon: BarChart2,
+    color: "#6366f1",
+    href: "/quan-tri/",
+  },
   {
     name: "Quản lý danh mục",
     icon: ShoppingBag,
     color: "#8B5CF6",
-    href: "/categories",
+    href: "/quan-tri/danh-muc",
+  },
+  {
+    name: "Quản lý khuyến mãi",
+    icon: TrendingUp,
+    color: "#8B5CF6",
+    href: "/quan-tri/khuyen-mai",
   },
   {
     name: "Quản lý sản phẩm",
     icon: Package,
     color: "#8B5CF6",
-    href: "/products",
+    href: "/quan-tri/san-pham",
   },
   {
     name: "Quản lý đơn hàng",
     icon: ShoppingCart,
     color: "#F59E0B",
-    href: "/orders",
+    href: "/quan-tri/don-hang",
   },
-  { name: "Quản lý tài khoản", icon: Users, color: "#EC4899", href: "/users" },
+  {
+    name: "Quản lý tài khoản",
+    icon: Users,
+    color: "#EC4899",
+    href: "/quan-tri/tai-khoan",
+  },
   {
     name: "Thống kê doanh thu",
     icon: DollarSign,
     color: "#10B981",
-    href: "/sales",
+    href: "/quan-tri/doanh-thu",
   },
-  { name: "Cài đặt", icon: Settings, color: "#6EE7B7", href: "/settings" },
+  {
+    name: "Cài đặt",
+    icon: Settings,
+    color: "#6EE7B7",
+    href: "/quan-tri/cai-dat",
+  },
 ];
 
 const Sidebar = () => {
@@ -90,17 +112,14 @@ const Sidebar = () => {
             </Link>
           ))}
         </nav>
-        {!isLogin && (
-          <div className="">
-            <Link
-              to="/dang-nhap"
-              className="btn btn-outline btn-sm text-base font-bold mx-1.5 bg-gray-50"
-            >
-              Đăng nhập
-            </Link>
+        {isLogin && (
+          <div className="flex flex-col items-center">
+            <img src={profile_user} alt="" className="" />
+            <p className="font-bold text-center text-cyan-600 mt-2">
+             {account.username}
+            </p>
           </div>
         )}
-        {isLogin && <p>Xin chào, {account.lastname} !</p>}
       </div>
     </motion.div>
   );

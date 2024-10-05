@@ -17,7 +17,7 @@ const ProductInHome = () => {
     <div>
       {categories.map((category) => {
         return (
-          <div key={category.id} className="rounded-lg mb-10">
+          <div key={category.id} className="rounded-lg">
             <div className="flex justify-center py-5 bg-zinc-400 rounded-t-lg">
               <p className=" text-xl font-extrabold text-white">
                 {category.title.toUpperCase()}
@@ -26,11 +26,11 @@ const ProductInHome = () => {
             <div>
               <ProductList products={getFourProductInCategory(category.id)} />
             </div>
-            <div className="flex justify-center p-5">
+            <div className="flex justify-center my-7">
               <div>
                 <Link
                   to={`/danh-muc/${category.id}`}
-                  className="btn btn-outline btn-sm rounded-full text-base font-medium w-full border-red-700 hover:border-red-700 hover:bg-red-700 hover:text-white"
+                  className="border-2 px-3.5 py-1.5 rounded-full text-base font-medium w-full border-rose-400 hover:border-rose-400 hover:bg-rose-400 hover:text-white"
                 >
                   Xem tất cả &gt;
                 </Link>

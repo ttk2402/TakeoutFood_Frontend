@@ -3,111 +3,108 @@ import { Edit, Search, Trash2, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-const CategoriesTable = () => {
-  const [categories, setCategories] = useState([]);
+const DiscountsTable = () => {
+  const [discounts, setDiscounts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filteredDiscounts, setFilteredDiscounts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  //Modal thêm
-  const [categoryName, setCategoryName] = useState("");
-  const [categoryImage, setCategoryImage] = useState("");
+  // Modal thêm
+  const [discountTitle, setDiscountTitle] = useState("");
+  const [discountPercent, setDiscountPercent] = useState("");
   // Modal chỉnh sửa
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [editCategoryName, setEditCategoryName] = useState("");
-  const [editCategoryImage, setEditCategoryImage] = useState("");
+  const [selectedDiscount, setSelectedDiscount] = useState(null);
+  const [editDiscounTitle, setEditDiscountTitle] = useState("");
+  const [editDiscountPercent, setEditDiscountPercent] = useState("");
   // Phân trang
   const PRODUCTS_PER_PAGE = 5;
-  const indexOfLastCategory = currentPage * PRODUCTS_PER_PAGE;
-  const indexOfFirstCategory = indexOfLastCategory - PRODUCTS_PER_PAGE;
-  const currentCategories = filteredCategories.slice(
-    indexOfFirstCategory,
-    indexOfLastCategory
+  const indexOfLastDiscount = currentPage * PRODUCTS_PER_PAGE;
+  const indexOfFirstDiscount = indexOfLastDiscount - PRODUCTS_PER_PAGE;
+  const currentDiscounts = filteredDiscounts.slice(
+    indexOfFirstDiscount,
+    indexOfLastDiscount
   );
-  const totalPages = Math.ceil(filteredCategories.length / PRODUCTS_PER_PAGE);
+  const totalPages = Math.ceil(filteredDiscounts.length / PRODUCTS_PER_PAGE);
   useEffect(() => {
-    fetchCategoryData();
+    fetchDiscountData();
   }, []);
   useEffect(() => {
-    let filtered = categories;
-
+    let filtered = discounts;
     if (searchTerm) {
-      filtered = filtered.filter((category) =>
-        category.title.toLowerCase().includes(searchTerm)
+      filtered = filtered.filter((discount) =>
+        discount.title.toLowerCase().includes(searchTerm)
       );
     }
-    setFilteredCategories(filtered);
+    setFilteredDiscounts(filtered);
     setCurrentPage(1);
-  }, [searchTerm, categories]);
-  // Gọi API lấy danh mục
-  const fetchCategoryData = async () => {
+  }, [searchTerm, discounts]);
+  // Gọi API lấy khuyến mãi
+  const fetchDiscountData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/category/");
-      const allCategories = response.data;
-      setCategories(allCategories);
-      setFilteredCategories(allCategories);
+      const response = await axios.get("http://localhost:9091/api/discount/");
+      const allDiscounts = response.data;
+      setDiscounts(allDiscounts);
+      setFilteredDiscounts(allDiscounts);
     } catch (error) {
-      console.error("Lỗi khi gọi API lấy danh sách danh mục sản phẩm:", error);
+      console.error("Lỗi khi gọi API lấy danh sách khuyến mãi:", error);
     }
   };
-  // Gọi API xóa danh mục
-  const DeleteCategory = async (id) => {
+  // Gọi API xóa khuyến mãi
+  const deleteDiscount = async (id) => {
     try {
-      await axios.delete(`http://localhost:9091/api/category/${id}`);
-      fetchCategoryData();
+      await axios.delete(`http://localhost:9091/api/discount/${id}`);
+      fetchDiscountData();
     } catch (error) {
-      console.error("Lỗi khi gọi API xóa danh mục sản phẩm:", error);
+      console.error("Lỗi khi gọi API xóa khuyến mãi:", error);
     }
   };
-  // Gọi API thêm danh mục
-  const addCategory = async () => {
+  // Gọi API thêm khuyến mãi
+  const addDiscount = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:9091/api/category/add",
+        "http://localhost:9091/api/discount/add",
         {
-          title: categoryName,
-          url_image_category: categoryImage,
+          title: discountTitle,
+          percent: discountPercent,
         }
       );
       document.getElementById("add_modal").close();
       console.log(response.data);
-      setCategoryName("");
-      setCategoryImage("");
-      fetchCategoryData();
+      setDiscountTitle("");
+      setDiscountPercent("");
+      fetchDiscountData();
     } catch (error) {
-      console.error("Lỗi khi gọi API thêm danh mục:", error);
+      console.error("Lỗi khi gọi API thêm khuyến mãi:", error);
     }
   };
-  // Gọi API cập nhật danh mục
-  const updateCategory = async () => {
+  // Gọi API cập nhật khuyến mãi
+  const updateDiscount = async () => {
     try {
       await axios.put(
-        `http://localhost:9091/api/category/${selectedCategory.id}`,
+        `http://localhost:9091/api/discount/${selectedDiscount.id}`,
         {
-          title: editCategoryName,
-          url_image_category: editCategoryImage,
+          title: editDiscounTitle,
+          percent: editDiscountPercent,
         }
       );
       document.getElementById("edit_modal").close();
-      setSelectedCategory(null);
-      setEditCategoryName("");
-      setEditCategoryImage("");
-      fetchCategoryData();
+      setSelectedDiscount(null);
+      setEditDiscountTitle("");
+      setEditDiscountPercent("");
+      fetchDiscountData();
     } catch (error) {
-      console.error("Lỗi khi gọi API cập nhật danh mục:", error);
+      console.error("Lỗi khi gọi API cập nhật khuyến mãi:", error);
     }
   };
-  // Tìm kiếm
+  const handleEditClick = (discount) => {
+    setSelectedDiscount(discount);
+    setEditDiscountTitle(discount.title);
+    setEditDiscountPercent(discount.percent);
+    setIsEditModalOpen(true);
+  };
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-  };
-  // Chỉnh sửa
-  const handleEditClick = (category) => {
-    setSelectedCategory(category);
-    setEditCategoryName(category.title);
-    setEditCategoryImage(category.url_image_category);
-    setIsEditModalOpen(true);
   };
   return (
     <motion.div
@@ -118,7 +115,7 @@ const CategoriesTable = () => {
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-lg font-bold text-fuchsia-900">
-          Danh sách danh mục
+          Danh sách khuyến mãi
         </h2>
         {/* Nút thêm */}
         <button
@@ -144,44 +141,46 @@ const CategoriesTable = () => {
                 ✕
               </button>
             </form>
-            <p className="font-bold text-xl text-center mb-2">Thêm danh mục</p>
+            <p className="font-bold text-xl text-center mb-2">
+              Thêm khuyến mãi
+            </p>
             <div className="mb-6">
               <label
-                htmlFor="category_name"
+                htmlFor="discount_title"
                 className="block mb-2 font-medium text-gray-900 dark:text-white"
               >
-                Tên danh mục
+                Tên khuyến mãi
               </label>
               <input
                 type="text"
-                id="category_name"
+                id="discount_title"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder=""
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
+                value={discountTitle}
+                onChange={(e) => setDiscountTitle(e.target.value)}
                 required
               />
             </div>
             <div className="mb-6">
               <label
-                htmlFor="category_image"
+                htmlFor="discount_percent"
                 className="block mb-2 font-medium text-gray-900 dark:text-white"
               >
-                Hình ảnh
+                Phần trăm
               </label>
               <input
                 type="text"
-                id="category_image"
+                id="discount_percent"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder=""
-                value={categoryImage}
-                onChange={(e) => setCategoryImage(e.target.value)}
+                value={discountPercent}
+                onChange={(e) => setDiscountPercent(e.target.value)}
                 required
               />
             </div>
             <div className="flex justify-center">
               <button
-                onClick={addCategory}
+                onClick={addDiscount}
                 className="btn text-white bg-sky-500 hover:bg-sky-700 px-7 focus:ring-sky-100 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Thêm
@@ -190,7 +189,7 @@ const CategoriesTable = () => {
           </div>
         </dialog>
         {/* Modal chỉnh sửa */}
-        {isEditModalOpen && selectedCategory && (
+        {isEditModalOpen && selectedDiscount && (
           <dialog id="edit_modal" className="modal" open>
             <div
               className="modal-box"
@@ -208,54 +207,54 @@ const CategoriesTable = () => {
                   className="btn btn-sm font-bold btn-circle btn-ghost absolute right-2 top-0 mt-2 bg-red-400 hover:bg-red-500"
                   onClick={() => {
                     setIsEditModalOpen(false);
-                    setSelectedCategory(null);
-                    setEditCategoryName("");
-                    setEditCategoryImage("");
+                    setSelectedDiscount(null);
+                    setEditDiscountTitle("");
+                    setEditDiscountPercent("");
                   }}
                 >
                   ✕
                 </button>
               </form>
               <p className="font-bold text-xl text-center mb-2">
-                Chỉnh sửa danh mục
+                Chỉnh sửa khuyến mãi
               </p>
               <div className="mb-6">
                 <label
-                  htmlFor="edit_category_name"
+                  htmlFor="edit_discount_title"
                   className="block mb-2 font-medium text-gray-900 dark:text-white"
                 >
-                  Tên danh mục
+                  Tên khuyến mãi
                 </label>
                 <input
                   type="text"
-                  id="edit_category_name"
+                  id="edit_discount_title"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Nhập tên danh mục"
-                  value={editCategoryName}
-                  onChange={(e) => setEditCategoryName(e.target.value)}
+                  placeholder=""
+                  value={editDiscounTitle}
+                  onChange={(e) => setEditDiscountTitle(e.target.value)}
                   required
                 />
               </div>
               <div className="mb-6">
                 <label
-                  htmlFor="edit_category_image"
+                  htmlFor="edit_discount_percent"
                   className="block mb-2 font-medium text-gray-900 dark:text-white"
                 >
-                  Hình ảnh
+                  Phần trăm
                 </label>
                 <input
                   type="text"
-                  id="edit_category_image"
+                  id="edit_discount_percent"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="URL hình ảnh danh mục"
-                  value={editCategoryImage}
-                  onChange={(e) => setEditCategoryImage(e.target.value)}
+                  placeholder=""
+                  value={editDiscountPercent}
+                  onChange={(e) => setEditDiscountPercent(e.target.value)}
                   required
                 />
               </div>
               <div className="flex justify-center">
                 <button
-                  onClick={updateCategory}
+                  onClick={updateDiscount}
                   className="btn text-white bg-emerald-500 hover:bg-emerald-700 px-9 focus:ring-emerald-100 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
                 >
                   Lưu
@@ -268,7 +267,7 @@ const CategoriesTable = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="Tìm kiếm danh mục..."
+            placeholder="Tìm kiếm khuyến mãi..."
             className="bg-gray-100 text-black placeholder-gray-500 border-gray-200 rounded-lg pl-10 pr-4 py-2 focus:ring-blue-200"
             onChange={handleSearch}
             value={searchTerm}
@@ -276,7 +275,7 @@ const CategoriesTable = () => {
           <Search className="absolute left-3 top-2.5 text-gray-500" size={18} />
         </div>
       </div>
-      {/* Bảng danh mục */}
+      {/* Bảng khuyến mãi */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
@@ -285,10 +284,10 @@ const CategoriesTable = () => {
                 ID
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider">
-                Image
+                Title
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider">
-                Category Name
+                Percent
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider">
                 Action
@@ -296,36 +295,32 @@ const CategoriesTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {currentCategories.map((category) => (
+            {currentDiscounts.map((discount) => (
               <motion.tr
-                key={category.id}
+                key={discount.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
                 <td className="px-6 py-2 whitespace-nowrap font-medium text-rose-950">
-                  {category.id}
+                  {discount.id}
                 </td>
                 <td className="px-6 py-2 whitespace-nowrap font-medium text-rose-950">
-                  <img
-                    src={category.url_image_category}
-                    alt={`Danh mục ${category.title}`}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  {discount.title}
                 </td>
                 <td className="px-6 py-2 whitespace-nowrap font-medium text-rose-950">
-                  {category.title}
+                  {discount.percent}
                 </td>
                 <td className="px-6 py-2 whitespace-nowrap font-medium text-rose-950">
                   <button
                     className="text-indigo-400 hover:text-indigo-300 mr-5"
-                    onClick={() => handleEditClick(category)}
+                    onClick={() => handleEditClick(discount)}
                   >
                     <Edit size={20} />
                   </button>
                   <button
                     className="text-red-400 hover:text-red-300"
-                    onClick={() => DeleteCategory(category.id)}
+                    onClick={() => deleteDiscount(discount.id)}
                   >
                     <Trash2 size={20} />
                   </button>
@@ -368,4 +363,4 @@ const CategoriesTable = () => {
     </motion.div>
   );
 };
-export default CategoriesTable;
+export default DiscountsTable;

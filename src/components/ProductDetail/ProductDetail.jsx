@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 import { StoreContext } from "../Context/StoreContext";
 import { useNavigate } from "react-router-dom";
 
@@ -31,16 +29,16 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
     navigate("/gio-hang");
   };
 
-  useEffect(() => {
-    console.log(quantity);
-  }, [quantity]);
+  // useEffect(() => {
+  //   console.log(quantity);
+  // }, [quantity]);
 
   return (
     <div className="flex flex-col items-center mt-8 mb-16">
       <div className="mx-auto p-5">
         {" "}
         <span className=" text-violet-600 font-semibold text-2xl">
-          Chi tiết sản phẩm
+          Chi tiết sản phẩm #{id}
         </span>
       </div>
       <div className="flex flex-col justify-center lg:flex-row gap-16 lg:items-center">
@@ -57,8 +55,8 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
             <h1 className="text-xl font-bold">{name}</h1>
           </div>
           <h6 className="text-base font-medium">
-            Giá: {price}
-            <span className="align-super text-[0.8em]">đ</span>
+            Giá: {price ? price.toLocaleString("vi-VN") : ""} 
+            <span className="underline">đ</span>
           </h6>
           <p className="text-base font-medium">Thương hiệu: TAKEOUT FOOD</p>
           <p className="text-base font-medium">Thành phần: {description}</p>

@@ -9,6 +9,7 @@ import OrdersPage from "../admin/OrdersPage";
 import SettingsPage from "../admin/SettingsPage";
 import CategoriesPage from "../admin/CategoriesPage";
 import AccountsPage from "../admin/AccountsPage";
+import DiscountsPage from "../admin/DiscountsPage";
 
 const Test = () => {
 	return (
@@ -23,6 +24,7 @@ const Test = () => {
 			<Routes>
 				<Route path='/' element={<OverviewPage />} />
 				<Route path='/categories' element={<CategoriesPage />} />
+				<Route path='/discounts' element={<DiscountsPage />} />
 				<Route path='/products' element={<ProductsPage />} />
 				<Route path='/users' element={<AccountsPage />} />
 				<Route path='/sales' element={<SalesPage />} />

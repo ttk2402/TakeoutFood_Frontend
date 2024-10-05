@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-
 import Header from "../../components/admin/common/Header";
 import StatCard from "../../components/admin/common/StatCard";
 import { DollarSign, ShoppingCart } from "lucide-react";
 import SalesOverviewChart from "../../components/admin/sales/SalesOverviewChart";
 import SalesByCategoryChart from "../../components/admin/sales/SalesByCategoryChart";
+import Sidebar from "../../components/admin/common/Sidebar";
 
 const salesStats = {
   totalRevenue: "$1,234,567",
@@ -15,9 +15,10 @@ const salesStats = {
 
 const SalesPage = () => {
   return (
+    <div className='flex h-screen text-black overflow-hidden'>
+      <Sidebar />
     <div className="bg-gray-100 flex-1 overflow-auto relative z-10 border-r-2 border-b-2 border-gray-200">
       <Header title="Thống kê doanh thu" />
-
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* SALES STATS */}
         <motion.div
@@ -45,6 +46,7 @@ const SalesPage = () => {
           <SalesByCategoryChart />
         </div>
       </main>
+    </div>
     </div>
   );
 };

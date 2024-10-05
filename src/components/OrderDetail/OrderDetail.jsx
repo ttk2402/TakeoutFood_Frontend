@@ -1,9 +1,22 @@
-import React from "react";
 import ItemOrderedList from "../ItemOrderedList/ItemOrderedList";
+import React, { useContext } from "react";
+import { StoreContext } from "../Context/StoreContext";
+import axios from "axios";
 
 const OrderDetail = ({ order }) => {
+  const { account, fetchOrderData } = useContext(StoreContext);
+  /* Gọi API hủy đơn hàng*/
+  const cancelOrder = async (orderID) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:9094/api/order/${orderID}/4`
+      );
+      fetchOrderData(account.id);
+    } catch (error) {
+      console.error("Lỗi khi gọi API hủy đơn hàng:", error);
+    }
+  };
   let statusClass = "";
-
   if (order.orderStatus) {
     switch (order.orderStatus.id) {
       case 1:
@@ -27,7 +40,6 @@ const OrderDetail = ({ order }) => {
         break;
     }
   }
-
   return (
     <div className="w-3/5 mx-auto border-2 p-3.5 drop-shadow-sm mb-5">
       <div className="flex justify-between items-center px-2 pb-1">
@@ -54,6 +66,16 @@ const OrderDetail = ({ order }) => {
           </span>
         </p>
       </div>
+      {order.orderStatus.status !== "Đã hủy" && order.orderStatus.status === "Chờ xác nhận" ? (
+        <div className="flex justify-end">
+          <button
+            onClick={() => cancelOrder(order.id)}
+            className="text-red-400 py-0.5 px-5 text-sm underline font-semibold mt-1 mr-5"
+          >
+            Hủy
+          </button>
+        </div>
+      ) : null}
       <div>
         <ItemOrderedList items={order.itemOrdereds} />
       </div>

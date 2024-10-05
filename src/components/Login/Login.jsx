@@ -1,12 +1,8 @@
 import React, { useContext } from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { StoreContext } from "../Context/StoreContext";
 
 const Login = () => {
   const { username, setUsername, password, setPassword, handleLogin } = useContext(StoreContext);
-  
-
   return (
     <div className="max-w-96 mx-auto my-10">
       <div className="py-5">

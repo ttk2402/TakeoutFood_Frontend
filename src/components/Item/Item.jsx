@@ -65,14 +65,14 @@ const Item = ({
       <td className="">
         <div className="h-10 flex justify-center items-center space-x-3">
           <button
-            className="btn btn-circle btn-outline btn-success btn-sm"
+            className="btn btn-circle btn-outline btn-sm btn-info"
             onClick={handleDecrease}
           >
             <img src={minus_icon} alt="" />
           </button>
           <p className="text-sm font-bold">{quantity}</p>
           <button
-            className="btn btn-circle btn-outline btn-success btn-sm"
+            className="btn btn-circle btn-outline btn-sm btn-info"
             onClick={handleIncrease}
           >
             <img src={plus_icon} alt="" />

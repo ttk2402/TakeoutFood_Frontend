@@ -5,21 +5,57 @@ import { Search, Eye, Edit, Trash2, Plus } from "lucide-react";
 
 const AccountsTable = () => {
   const [accounts, setAccounts] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [visiblePasswords, setVisiblePasswords] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filterRole, setFilterRole] = useState(""); //moi them
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = accounts.filter((account) =>
-      account.username.toLowerCase().includes(term)
-    );
-    setFilteredUsers(filtered);
-    setCurrentPage(1); // Reset trang về 1 khi tìm kiếm
-  };
-
-  const BlockAccount = async (id) => {
+  // Modal thêm
+  const [selectedRole, setSelectedRole] = useState("");
+  const [username, setUserName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  //Modal chỉnh sửa
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [editUsername, setEditUsername] = useState("");
+  const [editFirstname, setEditFirstname] = useState("");
+  const [editLastname, setEditLastname] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editPassword, setEditPassword] = useState("");
+  // Phân trang
+  const itemsPerPage = 5;
+  const indexOfLastAccount = currentPage * itemsPerPage;
+  const indexOfFirstAccount = indexOfLastAccount - itemsPerPage;
+  const currentAccounts = filteredAccounts.slice(
+    indexOfFirstAccount,
+    indexOfLastAccount
+  );
+  const totalPages = Math.ceil(filteredAccounts.length / itemsPerPage);
+  useEffect(() => {
+    fetchAccountData();
+    fetchRoleData();
+  }, []);
+  useEffect(() => {
+    let filtered = accounts;
+    if (searchTerm) {
+      filtered = filtered.filter((account) =>
+        account.username.toLowerCase().includes(searchTerm)
+      );
+    }
+    if (filterRole) {
+      filtered = filtered.filter(
+        (account) => account.role.id === Number(filterRole)
+      );
+    }
+    setFilteredAccounts(filtered);
+    setCurrentPage(1);
+  }, [searchTerm, filterRole, accounts]);
+  // Gọi API khóa tài khoản
+  const blockAccount = async (id) => {
     try {
       const response = await axios.put(
         `http://localhost:9093/api/account/block/${id}`
@@ -30,8 +66,8 @@ const AccountsTable = () => {
       console.error("Lỗi khi gọi API khóa tài khoản:", error);
     }
   };
-
-  const OpenAccount = async (id) => {
+  // Gọi API mở tài khoản
+  const openAccount = async (id) => {
     try {
       const response = await axios.put(
         `http://localhost:9093/api/account/open/${id}`
@@ -41,8 +77,8 @@ const AccountsTable = () => {
       console.error("Lỗi khi gọi API mở tài khoản:", error);
     }
   };
-
-  const DeleteAccount = async (id) => {
+  // Gọi API xóa tài khoản
+  const deleteAccount = async (id) => {
     try {
       await axios.delete(`http://localhost:9093/api/account/${id}`);
       fetchAccountData();
@@ -50,38 +86,18 @@ const AccountsTable = () => {
       console.error("Lỗi khi gọi API xóa tài khoản:", error);
     }
   };
-
-  useEffect(() => {
-    fetchAccountData();
-    fetchRoleData();
-  }, []);
-
+  //Gọi API lấy tài khoản
   const fetchAccountData = async () => {
     try {
       const response = await axios.get("http://localhost:9093/api/account/");
       const allAccounts = response.data;
       setAccounts(allAccounts);
-      setFilteredUsers(allAccounts);
+      setFilteredAccounts(allAccounts);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách tài khoản:", error);
     }
   };
-
-  // Tính toán chỉ số cho trang hiện tại
-  const itemsPerPage = 5; // Số lượng tài khoản trên mỗi trang
-  const indexOfLastUser = currentPage * itemsPerPage;
-  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-
-  // Tính toán tổng số trang
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
-
-  const [username, setUserName] = useState("");
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-
+  // Gọi API thêm tài khoản
   const addAccount = async (id) => {
     try {
       const response = await axios.post(
@@ -94,22 +110,20 @@ const AccountsTable = () => {
           email: email,
         }
       );
-      document.getElementById("my_modal_3").close();
+      document.getElementById("add_modal").close();
       console.log(response.data);
-      fetchAccountData();
       setSelectedRole("");
       setFirstName("");
       setLastName("");
       setPassword("");
       setUserName("");
       setEmail("");
+      fetchAccountData();
     } catch (error) {
       console.error("Lỗi khi gọi API thêm tài khoản:", error);
     }
   };
-
-  const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState(""); // Danh mục được chọn
+  // Gọi API lấy roles
   const fetchRoleData = async () => {
     try {
       const response = await axios.get("http://localhost:9093/api/role/");
@@ -118,16 +132,51 @@ const AccountsTable = () => {
       console.error("Lỗi khi gọi API lấy danh sách role:", error);
     }
   };
-
-  const [visiblePasswords, setVisiblePasswords] = useState({});
-
+  // Gọi API cập nhật tài khoản
+  const updateAccount = async () => {
+    try {
+      await axios.put(
+        `http://localhost:9093/api/account/${selectedAccount.id}`,
+        {
+          username: editUsername,
+          firstname: editFirstname,
+          lastname: editLastname,
+          password: editPassword,
+          email: editEmail,
+        }
+      );
+      document.getElementById("edit_modal").close();
+      setSelectedAccount(null);
+      setEditUsername("");
+      setEditFirstname("");
+      setEditLastname("");
+      setEditEmail("");
+      setEditPassword("");
+      fetchAccountData();
+    } catch (error) {
+      console.error("Lỗi khi gọi API cập nhật tài khoản:", error);
+    }
+  };
+  // Chỉnh sửa
+  const handleEditClick = (account) => {
+    setSelectedAccount(account);
+    setEditUsername(account.username);
+    setEditFirstname(account.firstname);
+    setEditLastname(account.lastname);
+    setEditEmail(account.email);
+    setEditPassword(account.password);
+    setIsEditModalOpen(true);
+  };
+  // Ẩn/Hiện mật khẩu
   const togglePasswordVisibility = (id) => {
     setVisiblePasswords((prev) => ({
       ...prev,
-      [id]: !prev[id], // Chuyển đổi trạng thái hiển thị mật khẩu
+      [id]: !prev[id],
     }));
   };
-
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+  };
   return (
     <motion.div
       className="bg-white backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-200"
@@ -139,15 +188,14 @@ const AccountsTable = () => {
         <h2 className="text-lg font-bold text-fuchsia-900">
           Danh sách tài khoản
         </h2>
-
-        {/* Thêm danh mục */}
+        {/* Modal thêm */}
         <button
           className="btn btn-sm px-2"
-          onClick={() => document.getElementById("my_modal_3").showModal()}
+          onClick={() => document.getElementById("add_modal").showModal()}
         >
           <Plus size={20} />
         </button>
-        <dialog id="my_modal_3" className="modal">
+        <dialog id="add_modal" className="modal">
           <div
             className="modal-box"
             style={{
@@ -164,7 +212,7 @@ const AccountsTable = () => {
               </button>
             </form>
             <p className="font-bold text-xl text-center mb-5">Thêm tài khoản</p>
-            {/* Chọn danh mục */}
+            {/* Chọn role */}
             <div className="mb-6">
               <label
                 htmlFor="role"
@@ -207,7 +255,6 @@ const AccountsTable = () => {
                   required
                 />
               </div>
-
               <div>
                 <label
                   htmlFor="last_name"
@@ -287,19 +334,170 @@ const AccountsTable = () => {
             </div>
           </div>
         </dialog>
-
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Tìm kiếm tài khoản..."
-            className="bg-gray-100 text-black placeholder-gray-500 border-gray-200 rounded-lg pl-10 pr-4 py-2 focus:ring-blue-200"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <Search className="absolute left-3 top-2.5 text-gray-500" size={18} />
+        {/* Modal chỉnh sửa */}
+        {isEditModalOpen && selectedAccount && (
+          <dialog id="edit_modal" className="modal" open>
+            <div
+              className="modal-box"
+              style={{
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "450px",
+              }}
+            >
+              <form method="dialog">
+                <button
+                  type="button"
+                  className="btn btn-sm font-bold btn-circle btn-ghost absolute right-2 top-0 mt-2 bg-red-400 hover:bg-red-500"
+                  onClick={() => {
+                    setIsEditModalOpen(false);
+                    setSelectedAccount(null);
+                    setEditUsername("");
+                    setEditFirstname("");
+                    setEditLastname("");
+                    setEditEmail("");
+                    setEditPassword("");
+                  }}
+                >
+                  ✕
+                </button>
+              </form>
+              <p className="font-bold text-xl text-center mb-2">
+                Chỉnh sửa tài khoản
+              </p>
+              <div className="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="first_name"
+                    className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+                  >
+                    First name
+                  </label>
+                  <input
+                    type="text"
+                    id="first_name"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder=""
+                    value={editFirstname}
+                    onChange={(e) => setEditFirstname(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="last_name"
+                    className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+                  >
+                    Last name
+                  </label>
+                  <input
+                    type="text"
+                    id="last_name"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder=""
+                    value={editLastname}
+                    onChange={(e) => setEditLastname(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="username_registry"
+                  className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username_registry"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder=""
+                  value={editUsername}
+                  onChange={(e) => setEditUsername(e.target.value)}
+                  required
+                />
+              </div>{" "}
+              <div className="mb-6">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder=""
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder=""
+                  value={editPassword}
+                  onChange={(e) => setEditPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex justify-center">
+                <button
+                  onClick={updateAccount}
+                  className="btn text-white bg-emerald-500 hover:bg-emerald-700 px-9 focus:ring-emerald-100 font-bold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                >
+                  Lưu
+                </button>
+              </div>
+            </div>
+          </dialog>
+        )}
+        <div className="flex space-x-4">
+          {/* Tìm kiếm */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Tìm kiếm tài khoản..."
+              className="bg-gray-100 text-black placeholder-gray-500 border-gray-200 rounded-lg pl-10 pr-4 py-2 focus:ring-blue-200"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <Search
+              className="absolute left-3 top-2.5 text-gray-500"
+              size={18}
+            />
+          </div>
+          {/* Lọc theo role */}
+          <div className="relative">
+            <select
+              id="filter_role"
+              className="w-44 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={filterRole}
+              onChange={(e) => setFilterRole(e.target.value)}
+            >
+              <option value="">--Tất cả vai trò--</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.role}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
-
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
@@ -327,9 +525,8 @@ const AccountsTable = () => {
               </th>
             </tr>
           </thead>
-
           <tbody className="divide-y divide-gray-200">
-            {currentUsers.map((account) => (
+            {currentAccounts.map((account) => (
               <motion.tr
                 key={account.id}
                 initial={{ opacity: 0 }}
@@ -374,14 +571,15 @@ const AccountsTable = () => {
                 <td className="px-4 py-4 whitespace-nowrap flex justify-center">
                   {account.account_status.status === "ACTIVED" ? (
                     <button
-                      onClick={() => BlockAccount(account.id)}
+                      disabled={account.role.role === "ADMIN"}
+                      onClick={() => blockAccount(account.id)}
                       className="border-2 px-2 bg-red-50 rounded"
                     >
                       Khóa
                     </button>
                   ) : (
                     <button
-                      onClick={() => OpenAccount(account.id)}
+                      onClick={() => openAccount(account.id)}
                       className="border-2 px-3.5 bg-green-50 rounded"
                     >
                       Mở
@@ -389,12 +587,15 @@ const AccountsTable = () => {
                   )}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap font-medium text-rose-950">
-                  <button className="text-indigo-400 hover:text-indigo-300 mr-5">
+                  <button
+                    className="text-indigo-400 hover:text-indigo-300 mr-5"
+                    onClick={() => handleEditClick(account)}
+                  >
                     <Edit size={20} />
                   </button>
                   <button
                     className="text-red-400 hover:text-red-300"
-                    onClick={() => DeleteAccount(account.id)}
+                    onClick={() => deleteAccount(account.id)}
                   >
                     <Trash2 size={20} />
                   </button>
@@ -404,7 +605,6 @@ const AccountsTable = () => {
           </tbody>
         </table>
       </div>
-
       {/* Phân trang */}
       <div className="flex justify-between mt-4">
         <button
@@ -436,5 +636,4 @@ const AccountsTable = () => {
     </motion.div>
   );
 };
-
 export default AccountsTable;

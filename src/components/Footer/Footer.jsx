@@ -14,7 +14,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="footer bg-base-200 text-base-content p-10">
+      <footer className="footer bg-gray-50 text-base-content py-10 flex justify-around">
         <aside>
           <img src={logo} alt="" className="w-14 h-14" />
           <p className="text-sm font-bold">
@@ -106,7 +106,7 @@ const Footer = () => {
           </div>
         </nav>
       </footer>
-      <p className="text-center bg-base-200 text-base-content pb-5">
+      <p className="bg-gray-50 text-center text-base-content pb-5">
         Copyright © 2024 - All right reserved by Takeout Food Ltd.
       </p>
     </>

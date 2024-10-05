@@ -3,18 +3,19 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { StoreContext } from "../components/Context/StoreContext";
 import ProductList from "../components/ProductList/ProductList";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 const CategoryPage = () => {
-  const { account, fetchProductDataByCategory, productInCategory } =
+  const { fetchProductDataByCategory, productInCategory } =
     useContext(StoreContext);
-  const { categoryID } = useParams(); // Get the category ID from the URL
+  const { categoryID } = useParams();
   const [selectedSort, setSelectedSort] = useState("0");
   const [sortedProducts, setSortedProducts] = useState([...productInCategory]);
-
   useEffect(() => {
-    fetchProductDataByCategory(categoryID); // Gọi API với id của category
-  }, [categoryID]); // Chạy lại mỗi khi id thay đổi
-
+    fetchProductDataByCategory(categoryID);
+    console.log(productInCategory);
+  }, [categoryID]);
   useEffect(() => {
     let sortedArray = [...productInCategory];
     switch (selectedSort) {
@@ -39,41 +40,59 @@ const CategoryPage = () => {
   const handleSelectSort = (event) => {
     setSelectedSort(event.target.value);
   };
-
   return (
-    <div className="mb-10">
-      {/* Select for sorting products */}
-      <div className="flex justify-end items-center">
-        <p className="mr-2 text-sm font-medium">Sắp xếp:</p>
-        <div className="w-48">
-          <select
-            id="sortProduct"
-            className="w-full text-sm font-semibold bg-gray-50 border rounded border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={selectedSort}
-            onChange={handleSelectSort}
-          >
-            <option value="0" className="text-sm font-semibold">
-              Mặc định
-            </option>
-            <option value="1" className="text-sm font-semibold">
-              Tên sản phẩm (A - Z)
-            </option>
-            <option value="2" className="text-sm font-semibold">
-              Tên sản phẩm (Z - A)
-            </option>
-            <option value="3" className="text-sm font-semibold">
-              Giá (thấp đến cao)
-            </option>
-            <option value="4" className="text-sm font-semibold">
-              Giá (cao đến thấp)
-            </option>
-          </select>
+    <>
+      <Navbar />
+      <div className="mb-10">
+        {/* sắp xếp */}
+        <div className="flex justify-between items-center px-5">
+          <div>
+            {productInCategory.length > 0 ? (
+              <p className="font-medium">
+                Danh mục:{" "}
+                <span className="font-bold">
+                  {productInCategory[0].category.title}
+                </span>
+              </p>
+            ) : (
+              <p></p>
+            )}
+          </div>
+
+          <div className="flex items-center">
+            <p className="mr-2 text-sm font-medium">Sắp xếp:</p>
+            <div className="w-48">
+              <select
+                id="sortProduct"
+                className="w-full text-sm font-semibold bg-gray-50 border rounded border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={selectedSort}
+                onChange={handleSelectSort}
+              >
+                <option value="0" className="text-sm font-semibold">
+                  Mặc định
+                </option>
+                <option value="1" className="text-sm font-semibold">
+                  Tên sản phẩm (A - Z)
+                </option>
+                <option value="2" className="text-sm font-semibold">
+                  Tên sản phẩm (Z - A)
+                </option>
+                <option value="3" className="text-sm font-semibold">
+                  Giá (thấp đến cao)
+                </option>
+                <option value="4" className="text-sm font-semibold">
+                  Giá (cao đến thấp)
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ProductList products={sortedProducts} />
         </div>
       </div>
-      <div>
-        <ProductList products={sortedProducts} />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
