@@ -9,7 +9,7 @@ const OrderDetail = ({ order }) => {
   const cancelOrder = async (orderID) => {
     try {
       const response = await axios.put(
-        `http://localhost:9094/api/order/${orderID}/4`
+        `http://localhost:8084/api/order/${orderID}/5`
       );
       fetchOrderData(account.id);
     } catch (error) {
@@ -21,17 +21,21 @@ const OrderDetail = ({ order }) => {
     switch (order.orderStatus.id) {
       case 1:
         statusClass =
-          "bg-teal-400 text-white py-0.5 px-1 rounded text-sm font-semibold";
+          "bg-sky-500 text-white py-0.5 px-1 rounded text-sm font-semibold";
         break;
       case 2:
         statusClass =
-          "bg-amber-200 text-black py-0.5 px-1 rounded text-sm font-semibold px-2";
+          "bg-teal-400 text-white py-0.5 px-1 rounded text-sm font-semibold";
         break;
       case 3:
         statusClass =
-          "bg-emerald-400 text-white py-0.5 px-1 rounded text-sm font-semibold px-2";
+          "bg-amber-200 text-black py-0.5 px-1 rounded text-sm font-semibold px-2";
         break;
       case 4:
+        statusClass =
+          "bg-emerald-400 text-white py-0.5 px-1 rounded text-sm font-semibold px-2";
+        break;
+      case 5:
         statusClass =
           "bg-red-400 text-white py-0.5 px-2.5 rounded text-sm font-semibold";
         break;
@@ -66,7 +70,8 @@ const OrderDetail = ({ order }) => {
           </span>
         </p>
       </div>
-      {order.orderStatus.status !== "Đã hủy" && order.orderStatus.status === "Chờ xác nhận" ? (
+      {order.orderStatus.status !== "Đã hủy" &&
+      order.orderStatus.status === "Chờ xác nhận" ? (
         <div className="flex justify-end">
           <button
             onClick={() => cancelOrder(order.id)}

@@ -22,5 +22,4 @@ const ItemOrderedList = ({items}) => {
     </div>
   );
 };
-
 export default ItemOrderedList;

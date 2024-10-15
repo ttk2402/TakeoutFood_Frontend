@@ -61,42 +61,39 @@ const ProductsTable = () => {
   // Gọi API lấy sản phẩm
   const fetchProductData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/product/");
+      const response = await axios.get("http://localhost:8082/api/product/");
       const allProducts = response.data;
       setProducts(allProducts);
       setFilteredProducts(allProducts);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách sản phẩm:", error);
-      toast.error("Lỗi khi tải danh sách sản phẩm.");
     }
   };
 
   // Gọi API lấy danh mục
   const fetchCategoryData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/category/");
+      const response = await axios.get("http://localhost:8082/api/category/");
       setCategories(response.data);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách danh mục sản phẩm:", error);
-      toast.error("Lỗi khi tải danh sách danh mục sản phẩm.");
     }
   };
 
   // Gọi API lấy khuyến mãi
   const fetchDiscountData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/discount/");
+      const response = await axios.get("http://localhost:8082/api/discount/");
       setDiscounts(response.data);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách khuyến mãi:", error);
-      toast.error("Lỗi khi tải danh sách khuyến mãi.");
     }
   };
 
   // Gọi API xóa sản phẩm
   const DeleteProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:9091/api/product/${id}`);
+      await axios.delete(`http://localhost:8082/api/product/${id}`);
       fetchProductData();
       toast.success("Xóa sản phẩm thành công!");
     } catch (error) {
@@ -108,7 +105,7 @@ const ProductsTable = () => {
   const addProduct = async (categoryId) => {
     try {
       const response = await axios.post(
-        `http://localhost:9091/api/product/add/${categoryId}`,
+        `http://localhost:8082/api/product/add/${categoryId}`,
         {
           name: productName,
           price: productPrice,
@@ -134,7 +131,7 @@ const ProductsTable = () => {
   const updateProduct = async () => {
     try {
       await axios.put(
-        `http://localhost:9091/api/product/${selectedProduct.id}`,
+        `http://localhost:8082/api/product/${selectedProduct.id}`,
         {
           name: editProductName,
           price: editProductPrice,
@@ -167,7 +164,7 @@ const ProductsTable = () => {
     const discountId = selectedDiscounts[productId];
     try {
       await axios.put(
-        `http://localhost:9091/api/product/applyDiscount/${productId}/${discountId}`
+        `http://localhost:8082/api/product/applyDiscount/${productId}/${discountId}`
       );
       toast.success("Cập nhật khuyến mãi thành công!");
       // Xóa giá trị đã chọn sau khi áp dụng
@@ -187,7 +184,7 @@ const ProductsTable = () => {
   const handleCancelDiscount = async (productId) => {
     try {
       await axios.put(
-        `http://localhost:9091/api/product/removeDiscount/${productId}`
+        `http://localhost:8082/api/product/removeDiscount/${productId}`
       );
       toast.success("Đã hủy khuyến mãi thành công!");
       fetchProductData();

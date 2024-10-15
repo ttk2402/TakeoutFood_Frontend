@@ -11,5 +11,4 @@ const RegistryPage = () => {
     </>
   );
 };
-
 export default RegistryPage;

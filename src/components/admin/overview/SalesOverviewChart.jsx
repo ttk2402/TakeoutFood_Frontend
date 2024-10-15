@@ -33,7 +33,7 @@ const SalesOverviewChart = () => {
       transition={{ delay: 0.2 }}
     >
       <h2 className="text-lg font-bold mb-4 text-gray-900">
-        Tổng quan danh thu
+        Tổng quan doanh thu
       </h2>
 
       <div className="h-80">

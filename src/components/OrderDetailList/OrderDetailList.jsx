@@ -15,5 +15,4 @@ const OrderDetailList = ({ orders }) => {
     </div>
   );
 };
-
 export default OrderDetailList;

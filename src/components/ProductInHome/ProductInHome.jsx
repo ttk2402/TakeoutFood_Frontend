@@ -18,8 +18,8 @@ const ProductInHome = () => {
       {categories.map((category) => {
         return (
           <div key={category.id} className="rounded-lg">
-            <div className="flex justify-center py-5 bg-zinc-400 rounded-t-lg">
-              <p className=" text-xl font-extrabold text-white">
+            <div className="flex justify-center py-4 bg-zinc-400 rounded-t-lg">
+              <p className=" text-lg font-extrabold text-white">
                 {category.title.toUpperCase()}
               </p>
             </div>

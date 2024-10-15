@@ -14,7 +14,7 @@ const ProductDetailPage = () => {
     const fetchProductDetail = async (productID) => {
       try {
         const response = await axios.get(
-          `http://localhost:9091/api/product/${productID}`
+          `http://localhost:8082/api/product/${productID}`
         );
         setProduct(response.data);
       } catch (error) {
@@ -38,5 +38,4 @@ const ProductDetailPage = () => {
     </>
   );
 };
-
 export default ProductDetailPage;

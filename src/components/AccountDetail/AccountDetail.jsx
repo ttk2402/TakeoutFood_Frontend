@@ -14,7 +14,7 @@ const AccountDetail = () => {
     const fetchProductDetail = async (accountID) => {
       try {
         const response = await axios.get(
-          `http://localhost:9093/api/account/get/${accountID}`
+          `http://localhost:8081/api/account/get/${accountID}`
         );
         const account = response.data;
         setID(account.id);

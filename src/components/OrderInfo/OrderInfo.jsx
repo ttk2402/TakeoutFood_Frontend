@@ -4,7 +4,8 @@ import axios from "axios";
 import { StoreContext } from "../Context/StoreContext";
 
 const ReceiveInfo = () => {
-  const { account, fetchItemData, fetchOrderData } = useContext(StoreContext);
+  const { account, items, fetchItemData, fetchOrderData } =
+    useContext(StoreContext);
   const [selectedRadio, setSelectedRadio] = useState("1");
 
   const handleRadioChange = (event) => {
@@ -85,27 +86,58 @@ const ReceiveInfo = () => {
   };
 
   const handleSubmit = async () => {
-    /* Gọi API để thêm OrderInfo để có OrderInfoID truyền cho API thêm Order */
-    try {
-      const response = await axios.post(
-        "http://localhost:9094/api/delivery_information/add",
-        {
-          recipientName: name,
-          phoneNumber: phone,
-          commune: selectedWard.name,
-          district: selectedDistrict.name,
-          province: selectedProvince.name,
-          description: street,
-        }
-      );
-      const checkoutID = selectedRadio;
-      const orderInfoID = response.data.id;
-      console.log(
-        "checkoutID: " + checkoutID + "\norderInfoID: " + orderInfoID
-      );
-      addNewOrder(checkoutID, orderInfoID);
-    } catch (error) {
-      console.error("Lỗi khi gọi API thêm thông tin Order:", error);
+    const checkoutID = selectedRadio;
+    console.log("checkoutID: " + typeof checkoutID);
+    if (checkoutID === "2") {
+      /* Gọi API để thêm OrderInfo để có OrderInfoID truyền cho API thêm Order */
+      try {
+        const response = await axios.post(
+          "http://localhost:8084/api/delivery_information/add",
+          {
+            recipientName: name,
+            phoneNumber: phone,
+            commune: selectedWard.name,
+            district: selectedDistrict.name,
+            province: selectedProvince.name,
+            description: street,
+          }
+        );
+        const orderInfoID = response.data.id;
+        addNewOrder(checkoutID, orderInfoID);
+      } catch (error) {
+        console.error("Lỗi khi gọi API thêm thông tin Order:", error);
+      }
+      const price = items.reduce((acc, item) => acc + item.price, 0);
+      /* Gọi API để lấy thông tin thanh toán VNPAY */
+      try {
+        const response = await axios.get(
+          `http://localhost:8085/api/v1/payment/vn-pay?amount=${price}&bankCode=NCB`
+        );
+        const paymentUrl = response.data.data.paymentUrl;
+        /* Chuyển đến trang thanh toán VNPAY*/
+        window.open(paymentUrl, "_blank");
+      } catch (error) {
+        console.error("Lỗi khi gọi API lấy thông tin thanh toán VNPAY:", error);
+      }
+    } else {
+      /* Gọi API để thêm OrderInfo để có OrderInfoID truyền cho API thêm Order */
+      try {
+        const response = await axios.post(
+          "http://localhost:8084/api/delivery_information/add",
+          {
+            recipientName: name,
+            phoneNumber: phone,
+            commune: selectedWard.name,
+            district: selectedDistrict.name,
+            province: selectedProvince.name,
+            description: street,
+          }
+        );
+        const orderInfoID = response.data.id;
+        addNewOrder(checkoutID, orderInfoID);
+      } catch (error) {
+        console.error("Lỗi khi gọi API thêm thông tin Order:", error);
+      }
     }
   };
 
@@ -113,7 +145,7 @@ const ReceiveInfo = () => {
     /* Gọi API để thêm Order với tham số CheckoutID và OrderInfoID */
     try {
       const response = await axios.post(
-        `http://localhost:9094/api/order/add/${checkoutID}/${orderInfoID}`,
+        `http://localhost:8084/api/order/add/${checkoutID}/${orderInfoID}`,
         {
           accountId: account.id,
         }
@@ -294,7 +326,7 @@ const ReceiveInfo = () => {
             htmlFor="default-radio-2"
             className="text-sm font-bold ms-2 font-medium text-gray-900 dark:text-gray-300"
           >
-            Thanh toán VN Pay
+            Thanh toán VNPAY
           </label>
         </div>
         <div className="flex items-center py-1.5">
@@ -304,6 +336,7 @@ const ReceiveInfo = () => {
             value="3"
             name="default-radio"
             checked={selectedRadio === "3"}
+            disabled={true}
             onChange={handleRadioChange}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
@@ -318,13 +351,12 @@ const ReceiveInfo = () => {
       <div className="flex justify-center mt-6">
         <button
           onClick={handleSubmit}
-          className="text-white font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-7 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Tiếp tục đặt hàng
+          Đặt hàng
         </button>
       </div>
     </div>
   );
 };
-
 export default ReceiveInfo;

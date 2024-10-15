@@ -1,24 +1,68 @@
-import {
-  BarChart2,
-  ShoppingBag,
-  Users,
-  Zap,
-  ShoppingCart,
-  Package,
-  UserCheck,
-  UserPlus,
-  UsersIcon,
-  UserX,
-} from "lucide-react";
+import { BarChart2, ShoppingBag, Users, Package } from "lucide-react";
 import { motion } from "framer-motion";
-
 import Header from "../../components/admin/common/Header";
 import StatCard from "../../components/admin/common/StatCard";
 import SalesOverviewChart from "../../components/admin/overview/SalesOverviewChart";
 import CategoryDistributionChart from "../../components/admin/overview/CategoryDistributionChart";
 import Sidebar from "../../components/admin/common/Sidebar";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const OverviewPage = () => {
+  const [revenue, setRevenue] = useState(0);
+  const [customer, setCustomer] = useState(0);
+  const [product, setProduct] = useState(0);
+  const [category, setCategory] = useState(0);
+
+  useEffect(() => {
+    fetchTotalRevenue();
+    fetchTotalCustomer();
+    fetchTotalProduct();
+    fetchTotalCategory();
+  }, []);
+
+  const fetchTotalRevenue = async () => {
+    try {
+      const response = await axios.get("http://localhost:8084/api/revenue/");
+      setRevenue(response.data.revenue);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy doanh thu:", error);
+    }
+  };
+
+  const fetchTotalCustomer = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/api/account/totalCustomer"
+      );
+      setCustomer(response.data.total);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy tổng số khách hàng:", error);
+    }
+  };
+
+  const fetchTotalProduct = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8082/api/product/totalProduct"
+      );
+      setProduct(response.data.total);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy tổng số sản phẩm:", error);
+    }
+  };
+
+  const fetchTotalCategory = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8082/api/category/totalCategory"
+      );
+      setCategory(response.data.total);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy tổng số danh mục:", error);
+    }
+  };
+
   return (
     <div className="flex h-screen text-black overflow-hidden">
       <Sidebar />
@@ -36,25 +80,25 @@ const OverviewPage = () => {
             <StatCard
               name="Tổng Doanh Thu"
               icon={BarChart2}
-              value="$12,345"
+              value={revenue ? revenue.toLocaleString("vi-VN") : 0}
               color="#10B981"
             />
             <StatCard
               name="Tổng Số Khách Hàng"
               icon={Users}
-              value="1,234"
+              value={customer}
               color="#8B5CF6"
             />
             <StatCard
               name="Tổng Số Sản Phẩm"
               icon={Package}
-              value={100}
+              value={product}
               color="#6366F1"
             />
             <StatCard
               name="Tổng Số Danh Mục"
               icon={ShoppingBag}
-              value={5}
+              value={category}
               color="#6366F1"
             />
             {/* <StatCard

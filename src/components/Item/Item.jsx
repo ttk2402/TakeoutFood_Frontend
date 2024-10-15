@@ -17,7 +17,7 @@ const Item = ({
 
   const updateItemQuantity = async (newQuantity) => {
     try {
-      const response = await axios.put(`http://localhost:9092/api/item/${id}`, {
+      const response = await axios.put(`http://localhost:8083/api/item/${id}`, {
         productId: productid,
         quantity: newQuantity,
         price: productprice * newQuantity,

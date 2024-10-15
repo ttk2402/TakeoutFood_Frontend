@@ -19,7 +19,7 @@ const CategoryDistributionChart = () => {
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ delay: 0.3 }}
 		>
-			<h2 className='text-lg font-bold mb-4 text-gray-900'>Danh thu theo Danh mục</h2>
+			<h2 className='text-lg font-bold mb-4 text-gray-900'>Doanh thu theo Danh mục</h2>
 			<div className='h-80'>
 				<ResponsiveContainer width={"100%"} height={"100%"}>
 					<PieChart>

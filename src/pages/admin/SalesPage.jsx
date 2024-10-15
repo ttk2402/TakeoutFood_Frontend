@@ -5,6 +5,8 @@ import { DollarSign, ShoppingCart } from "lucide-react";
 import SalesOverviewChart from "../../components/admin/sales/SalesOverviewChart";
 import SalesByCategoryChart from "../../components/admin/sales/SalesByCategoryChart";
 import Sidebar from "../../components/admin/common/Sidebar";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const salesStats = {
   totalRevenue: "$1,234,567",
@@ -14,6 +16,34 @@ const salesStats = {
 };
 
 const SalesPage = () => {
+
+  const [revenue, setRevenue] = useState(0);
+  const [order, setOrder] = useState(0);
+
+  useEffect(() => {
+   fetchTotalRevenue();
+   fetchTotalOrder();
+  }, []);
+
+  const fetchTotalRevenue = async () => {
+    try {
+      const response = await axios.get("http://localhost:8084/api/revenue/");
+      setRevenue(response.data.revenue);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy doanh thu:", error);
+    }
+  };
+
+  const fetchTotalOrder = async () => {
+    try {
+      const response = await axios.get("http://localhost:8084/api/order/totalOrder");
+      setOrder(response.data.total);
+      console.log(response.data.total);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy tổng số đơn hàng:", error);
+    }
+  };
+
   return (
     <div className='flex h-screen text-black overflow-hidden'>
       <Sidebar />
@@ -30,13 +60,13 @@ const SalesPage = () => {
           <StatCard
             name="Tổng Doanh Thu"
             icon={DollarSign}
-            value={salesStats.totalRevenue}
+            value={revenue?revenue.toLocaleString("vi-VN"):0}
             color="#6366F1"
           />
           <StatCard
             name="Tổng Số Đơn Hàng"
             icon={ShoppingCart}
-            value="1024"
+            value={order}
             color="#6366F1"
           />
         </motion.div>

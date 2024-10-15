@@ -29,10 +29,6 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
     navigate("/gio-hang");
   };
 
-  // useEffect(() => {
-  //   console.log(quantity);
-  // }, [quantity]);
-
   return (
     <div className="flex flex-col items-center mt-8 mb-16">
       <div className="mx-auto p-5">
@@ -70,7 +66,7 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
             <div className="flex flex-row items-center">
               <button
                 className="bg-gray-200 px-3.5 py-1 rounded-lg text-violet-800 text-xl font-bold"
-                onClick={() => setQuantity((prev) => prev - 1)}
+                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
               >
                 -
               </button>

@@ -37,5 +37,4 @@ const ItemOrdered = ({
     </div>
   );
 };
-
 export default ItemOrdered;

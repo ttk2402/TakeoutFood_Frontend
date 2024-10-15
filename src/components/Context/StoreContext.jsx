@@ -9,14 +9,12 @@ const StoreContextProvider = (props) => {
   const [account, setAccount] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [productInCategory, setProductInCategory] = useState([]);
   const [items, setItems] = useState([]);
   const [orders, setOrders] = useState([]);
   const [checkouts, setCheckouts] = useState([]);
-  const [orderStatus, setOrderStatus] = useState([]);
 
   useEffect(() => {
     const savedAccount = sessionStorage.getItem("account");
@@ -41,7 +39,7 @@ const StoreContextProvider = (props) => {
   /* Lấy dữ liệu và các xử lý liên quan đến Category */
   const fetchCategoryData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/category/");
+      const response = await axios.get("http://localhost:8082/api/category/");
       setCategories(response.data);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách danh mục:", error);
@@ -51,7 +49,7 @@ const StoreContextProvider = (props) => {
   /* Lấy dữ liệu và các xử lý liên quan đến Product */
   const fetchProductData = async () => {
     try {
-      const response = await axios.get("http://localhost:9091/api/product/");
+      const response = await axios.get("http://localhost:8082/api/product/");
       setProducts(response.data);
     } catch (error) {
       console.error("Lỗi khi gọi API lấy danh sách sản phẩm:", error);
@@ -62,7 +60,7 @@ const StoreContextProvider = (props) => {
   const fetchItemData = async (accountID) => {
     try {
       const response = await axios.get(
-        `http://localhost:9092/api/item/all/account/${accountID}`
+        `http://localhost:8083/api/item/all/account/${accountID}`
       );
       setItems(response.data);
     } catch (error) {
@@ -77,7 +75,7 @@ const StoreContextProvider = (props) => {
   const fetchOrderData = async (accountID) => {
     try {
       const response = await axios.get(
-        `http://localhost:9094/api/order/account/${accountID}`
+        `http://localhost:8084/api/order/account/${accountID}`
       );
       setOrders(response.data);
     } catch (error) {
@@ -91,7 +89,7 @@ const StoreContextProvider = (props) => {
   /* Lấy dữ liệu phương thức thanh toán */
   const fetchCheckoutData = async () => {
     try {
-      const response = await axios.get("http://localhost:9094/api/checkout/");
+      const response = await axios.get("http://localhost:8084/api/checkout/");
       setCheckouts(response.data);
     } catch (error) {
       console.error(
@@ -104,7 +102,7 @@ const StoreContextProvider = (props) => {
   const fetchProductDataByCategory = async (categoryID) => {
     try {
       const response = await axios.get(
-        `http://localhost:9091/api/product/category/${categoryID}`
+        `http://localhost:8082/api/product/category/${categoryID}`
       );
       setProductInCategory(response.data);
     } catch (error) {
@@ -123,7 +121,7 @@ const StoreContextProvider = (props) => {
       const updatedPrice = existingItem.productPrice * updatedQuantity;
       try {
         const response = await axios.put(
-          `http://localhost:9092/api/item/${existingItem.id}`,
+          `http://localhost:8083/api/item/${existingItem.id}`,
           {
             productId: product.id,
             quantity: updatedQuantity,
@@ -137,7 +135,7 @@ const StoreContextProvider = (props) => {
     } else {
       try {
         const response = await axios.post(
-          `http://localhost:9092/api/item/add/${accountID}`,
+          `http://localhost:8083/api/item/add/${accountID}`,
           {
             productId: product.id,
             quantity: 1,
@@ -163,7 +161,7 @@ const StoreContextProvider = (props) => {
       const updatedPrice = existingItem.productPrice * updatedQuantity;
       try {
         const response = await axios.put(
-          `http://localhost:9092/api/item/${existingItem.id}`,
+          `http://localhost:8083/api/item/${existingItem.id}`,
           {
             productId: product.id,
             quantity: updatedQuantity,
@@ -179,7 +177,7 @@ const StoreContextProvider = (props) => {
       const updatePrice = product.price * quantity;
       try {
         const response = await axios.post(
-          `http://localhost:9092/api/item/add/${accountID}`,
+          `http://localhost:8083/api/item/add/${accountID}`,
           {
             productId: product.id,
             quantity: updateQuantity,
@@ -201,7 +199,7 @@ const StoreContextProvider = (props) => {
   const deleteItem = async (itemID) => {
     try {
       const response = await axios.delete(
-        `http://localhost:9092/api/item/${itemID}`
+        `http://localhost:8083/api/item/${itemID}`
       );
       console.log(response.data);
       setItems(items.filter((item) => item.id !== itemID));
@@ -215,7 +213,7 @@ const StoreContextProvider = (props) => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:9093/api/account/login",
+        "http://localhost:8081/api/account/login",
         {
           username: username,
           password: password,
@@ -237,7 +235,7 @@ const StoreContextProvider = (props) => {
           navigate("/quan-tri/");
         }
       } else {
-        console.log("Tài khoản hoặc mật khẩu không chính xác.");
+        console.log("Mật khẩu không chính xác hoặc tài khoản đã bị khóa");
         setUsername("");
         setPassword("");
       }

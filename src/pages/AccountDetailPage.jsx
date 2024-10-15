@@ -12,5 +12,4 @@ const AccountDetailPage = () => {
     </>
   );
 };
-
 export default AccountDetailPage;

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { StoreContext } from "../Context/StoreContext";
 
 const Login = () => {
-  const { username, setUsername, password, setPassword, handleLogin } = useContext(StoreContext);
+  const { username, setUsername, password, setPassword, handleLogin } =
+    useContext(StoreContext);
   return (
     <div className="max-w-96 mx-auto my-10">
       <div className="py-5">
@@ -81,5 +82,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;
