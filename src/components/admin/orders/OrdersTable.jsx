@@ -118,7 +118,9 @@ const OrdersTable = () => {
     try {
       await axios.delete(`http://localhost:8084/api/order/${id}`);
       fetchOrderData();
+      toast.success("Xóa đơn thành công!");
     } catch (error) {
+      toast.error("Xóa đơn hàng thất bại!");
       console.error("Lỗi khi gọi API xóa đơn hàng:", error);
     }
   };
@@ -146,9 +148,9 @@ const OrdersTable = () => {
       fetchItemData(accountID);
       fetchOrderData();
       document.getElementById("add_modal").close();
-      toast.success("Thêm đơn hàng thành công!");
+      toast.success("Tạo đơn hàng thành công!");
     } catch (error) {
-      toast.error("Thêm đơn hàng thất bại!");
+      toast.error("Tạo đơn hàng thất bại!");
       console.error("Lỗi khi gọi API tạo đơn hàng:", error);
     }
   };
@@ -167,9 +169,7 @@ const OrdersTable = () => {
       await axios.put(`http://localhost:8084/api/order/${orderId}/${statusId}`);
       fetchOrderData();
       fetchOrderDetailData(orderId);
-      toast.success("Cập nhật trạng thái đơn hàng thành công!");
     } catch (error) {
-      toast.error("Cập nhật trạng thái đơn hàng thất bại!");
       console.error("Lỗi khi gọi API cập nhật trạng thái đơn hàng:", error);
     }
   };
@@ -594,7 +594,19 @@ const OrdersTable = () => {
           </button>
         </div>
       </motion.div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </>
   );
 };

@@ -64,7 +64,9 @@ const AccountsTable = () => {
       );
       console.log(response.data);
       fetchAccountData();
+      toast.success("Khóa tài khoản thành công!");
     } catch (error) {
+      toast.error("Khóa tài khoản thất bại!");
       console.error("Lỗi khi gọi API khóa tài khoản:", error);
     }
   };
@@ -75,7 +77,9 @@ const AccountsTable = () => {
         `http://localhost:8081/api/account/open/${id}`
       );
       fetchAccountData();
+      toast.success("Mở tài khoản thành công!");
     } catch (error) {
+      toast.error("Mở tài khoản thất bại!");
       console.error("Lỗi khi gọi API mở tài khoản:", error);
     }
   };
@@ -84,7 +88,9 @@ const AccountsTable = () => {
     try {
       await axios.delete(`http://localhost:8081/api/account/${id}`);
       fetchAccountData();
+      toast.success("Xóa tài khoản thành công!");
     } catch (error) {
+      toast.error("Xóa tài khoản thất bại!");
       console.error("Lỗi khi gọi API xóa tài khoản:", error);
     }
   };
@@ -645,7 +651,19 @@ const AccountsTable = () => {
           </button>
         </div>
       </motion.div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </>
   );
 };

@@ -15,7 +15,7 @@ const Registry = () => {
   const [agreement, setAgreement] = useState(false); // New state for agreement checkbox
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  
+
   const validateUsername = (username) => {
     if (username.trim().length < 8) {
       return "Username phải có ít nhất 8 ký tự.";
@@ -349,7 +349,19 @@ const Registry = () => {
           Đăng ký
         </button>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </div>
   );
 };

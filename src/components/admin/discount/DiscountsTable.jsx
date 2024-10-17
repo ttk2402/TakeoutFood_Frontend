@@ -56,7 +56,9 @@ const DiscountsTable = () => {
     try {
       await axios.delete(`http://localhost:8082/api/discount/${id}`);
       fetchDiscountData();
+      toast.success("Xóa khuyến mãi thành công!");
     } catch (error) {
+      toast.error("Xóa khuyến mãi thất bại!");
       console.error("Lỗi khi gọi API xóa khuyến mãi:", error);
     }
   };
@@ -98,7 +100,7 @@ const DiscountsTable = () => {
       fetchDiscountData();
       toast.success("Chỉnh sửa khuyến mãi thành công!");
     } catch (error) {
-      toast.success("Chỉnh sửa khuyến mãi thất bại!");
+      toast.error("Chỉnh sửa khuyến mãi thất bại!");
       console.error("Lỗi khi gọi API cập nhật khuyến mãi:", error);
     }
   };
@@ -371,7 +373,19 @@ const DiscountsTable = () => {
           </button>
         </div>
       </motion.div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </>
   );
 };

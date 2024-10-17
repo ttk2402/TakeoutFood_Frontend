@@ -57,7 +57,9 @@ const CategoriesTable = () => {
     try {
       await axios.delete(`http://localhost:8082/api/category/${id}`);
       fetchCategoryData();
+      toast.success("Xóa danh mục thành công!");
     } catch (error) {
+      toast.error("Xóa danh mục thất bại!");
       console.error("Lỗi khi gọi API xóa danh mục sản phẩm:", error);
     }
   };
@@ -378,7 +380,19 @@ const CategoriesTable = () => {
           </button>
         </div>
       </motion.div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </>
   );
 };
