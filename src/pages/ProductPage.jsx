@@ -65,7 +65,7 @@ const ProductPage = () => {
   return (
     <>
       <Navbar />
-      <div className="mb-10">
+      <div className="mt-5 mb-10">
         {/* Lọc sản phẩm */}
         <div className="flex justify-between px-5">
           <div className="flex items-center">

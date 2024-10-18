@@ -3,7 +3,7 @@ import Product from "../Product/Product";
 
 const ProductList = ({ products }) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-[30px] mt-5">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-[30px] mt-7">
       {products.map((product, index) => {
         return <Product key={index} product={product} />;
       })}

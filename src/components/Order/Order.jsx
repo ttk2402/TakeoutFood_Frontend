@@ -22,7 +22,7 @@ const Order = () => {
   });
 
   return (
-    <div>
+    <div className="mt-5 mb-10">
       {/* Danh sách các nút lọc */}
       <ul className="flex mb-4 justify-center space-x-5">
         <li>

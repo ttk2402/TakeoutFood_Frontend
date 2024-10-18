@@ -43,7 +43,7 @@ const CategoryPage = () => {
   return (
     <>
       <Navbar />
-      <div className="mb-10">
+      <div className="mt-5 mb-10">
         {/* sắp xếp */}
         <div className="flex justify-between items-center px-5">
           <div>

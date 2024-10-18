@@ -23,9 +23,9 @@ const ProductDiscount = () => {
   };
   return (
     <div>
-      <div className="rounded-lg mb-5">
-        <div className="flex justify-center py-4 bg-zinc-400 rounded-t-lg">
-          <p className=" text-lg font-extrabold text-white">
+      <div className="mt-7 mb-7">
+        <div className="flex justify-center py-4 bg-gray-50">
+          <p className="text-lg font-extrabold text-green-600">
             SẢN PHẨM ĐANG KHUYẾN MÃI
           </p>
         </div>

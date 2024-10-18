@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { StoreContext } from "../Context/StoreContext";
+import { useNavigate } from "react-router-dom";
 
 const ReceiveInfo = () => {
+  const navigate = useNavigate();
   const { account, items, fetchItemData, fetchOrderData } =
     useContext(StoreContext);
   const [selectedRadio, setSelectedRadio] = useState("1");
@@ -104,6 +106,7 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
+        navigate("/don-hang");
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }
@@ -135,6 +138,7 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
+        navigate("/don-hang");
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }

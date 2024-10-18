@@ -17,9 +17,9 @@ const ProductInHome = () => {
     <div>
       {categories.map((category) => {
         return (
-          <div key={category.id} className="rounded-lg">
-            <div className="flex justify-center py-4 bg-zinc-400 rounded-t-lg">
-              <p className=" text-lg font-extrabold text-white">
+          <div key={category.id} className="mb-7">
+            <div className="flex justify-center py-4 bg-gray-100">
+              <p className=" text-lg font-extrabold text-red-600">
                 {category.title.toUpperCase()}
               </p>
             </div>
@@ -30,7 +30,7 @@ const ProductInHome = () => {
               <div>
                 <Link
                   to={`/danh-muc/${category.id}`}
-                  className="border-2 px-3.5 py-1.5 rounded-full text-base font-medium w-full border-rose-400 hover:border-rose-400 hover:bg-rose-400 hover:text-white"
+                  className="border-2 px-2.5 py-1 rounded-full border-emerald-50 text-emerald-700 font-medium w-full bg-emerald-50 hover:border-emerald-400 hover:bg-emerald-400 hover:text-white"
                 >
                   Xem tất cả &gt;
                 </Link>

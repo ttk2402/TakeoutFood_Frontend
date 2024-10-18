@@ -9,7 +9,7 @@ const CartPage = () => {
   return (
     <>
       <Navbar />
-      <div className="w-full flex my-10">
+      <div className="w-full flex mb-7">
         <div className="w-2/3 border-2 border-white p-5">
           <ItemList items={items} />
         </div>
