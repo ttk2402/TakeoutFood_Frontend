@@ -89,7 +89,6 @@ const ReceiveInfo = () => {
 
   const handleSubmit = async () => {
     const checkoutID = selectedRadio;
-    console.log("checkoutID: " + typeof checkoutID);
     if (checkoutID === "2") {
       /* Gọi API để thêm OrderInfo để có OrderInfoID truyền cho API thêm Order */
       try {
@@ -106,7 +105,9 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
-        navigate("/don-hang");
+        setTimeout(() => {
+          navigate("/trang-chu");
+        }, 500);
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }
@@ -138,7 +139,9 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
-        navigate("/don-hang");
+        setTimeout(() => {
+          navigate("/trang-chu");
+        }, 500);
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }
@@ -159,11 +162,6 @@ const ReceiveInfo = () => {
       fetchItemData(account.id);
       /* Cập nhật lại danh sách Order */
       fetchOrderData(account.id);
-      /* Thiết lập lại giá trị ban đầu cho các Input, Radio */
-      setStreet("");
-      setPhone("");
-      setName("");
-      setSelectedRadio("1");
     } catch (error) {
       console.error("Lỗi khi gọi API thêm Order:", error);
     }

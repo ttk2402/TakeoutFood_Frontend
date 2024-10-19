@@ -22,18 +22,20 @@ const ProductDiscount = () => {
     }
   };
   return (
-    <div>
-      <div className="mt-7 mb-7">
-        <div className="flex justify-center py-4 bg-gray-50">
-          <p className="text-lg font-extrabold text-green-600">
-            SẢN PHẨM ĐANG KHUYẾN MÃI
-          </p>
+    <>
+      {products.length > 0 && (
+        <div className="mt-7 mb-7">
+          <div className="flex justify-center py-4 bg-gray-50">
+            <p className="text-lg font-extrabold text-green-600">
+              SẢN PHẨM ĐANG KHUYẾN MÃI
+            </p>
+          </div>
+          <div>
+            <ProductList products={products} />
+          </div>
         </div>
-        <div>
-          <ProductList products={products} />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 export default ProductDiscount;

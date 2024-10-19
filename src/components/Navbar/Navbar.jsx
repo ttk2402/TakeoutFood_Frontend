@@ -78,7 +78,7 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Nhập tên sản phẩm..."
-              className="w-96 text-black placeholder-gray-700 border-gray-300 rounded-full pl-5 pr-4 py-2 focus:ring-blue-200"
+              className="w-96 text-black placeholder-gray-700 font-semibold border-gray-300 rounded-full pl-5 pr-4 py-2 focus:ring-blue-200"
               value={searchKeyword}
               onChange={handleSearch}
             />

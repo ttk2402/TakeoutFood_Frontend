@@ -4,13 +4,8 @@ import OrderDetail from "../OrderDetail/OrderDetail";
 const OrderDetailList = ({ orders }) => {
   return (
     <div>
-      {orders.map((order) => {
-        return (
-          <OrderDetail
-            key={order.id}
-            order={order}
-          />
-        );
+      {orders.reverse().map((order) => {
+        return <OrderDetail key={order.id} order={order} />;
       })}
     </div>
   );
