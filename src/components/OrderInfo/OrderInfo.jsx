@@ -105,9 +105,7 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
-        setTimeout(() => {
-          navigate("/trang-chu");
-        }, 500);
+        // navigate("/trang-chu");
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }
@@ -115,11 +113,12 @@ const ReceiveInfo = () => {
       /* Gọi API để lấy thông tin thanh toán VNPAY */
       try {
         const response = await axios.get(
-          `http://localhost:8085/api/v1/payment/vn-pay?amount=${price}&bankCode=NCB`
+          `http://localhost:8085/api/v1/payment/vn-pay?amount=${price}`
         );
         const paymentUrl = response.data.data.paymentUrl;
         /* Chuyển đến trang thanh toán VNPAY*/
-        window.open(paymentUrl, "_blank");
+        // window.open(paymentUrl, "_blank");
+        window.location.href = paymentUrl;
       } catch (error) {
         console.error("Lỗi khi gọi API lấy thông tin thanh toán VNPAY:", error);
       }
@@ -139,9 +138,7 @@ const ReceiveInfo = () => {
         );
         const orderInfoID = response.data.id;
         addNewOrder(checkoutID, orderInfoID);
-        setTimeout(() => {
-          navigate("/trang-chu");
-        }, 500);
+        // navigate("/trang-chu");
       } catch (error) {
         console.error("Lỗi khi gọi API thêm thông tin Order:", error);
       }

@@ -17,6 +17,8 @@ import AccountsPage from "./pages/admin/AccountsPage";
 import SalesPage from "./pages/admin/SalesPage";
 import OrdersPage from "./pages/admin/OrdersPage";
 import SettingsPage from "./pages/admin/SettingsPage";
+import SuccessPayment from "./pages/SuccessPayment";
+import FailurePayment from "./pages/FailurePayment";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/dang-nhap" element={<LoginPage />} />
         <Route path="/dang-ky" element={<RegistryPage />} />
         <Route path="/tai-khoan/:accountID" element={<AccountDetailPage />} />
+        <Route path="/thanh-toan-thanh-cong*" element={<SuccessPayment />} />
+        <Route path="/thanh-toan-that-bai*" element={<FailurePayment />} />
         {/* Người quản trị */}
         <Route path="/quan-tri/" element={<OverviewPage />} />
         <Route path="/quan-tri/danh-muc" element={<CategoriesPage />} />
