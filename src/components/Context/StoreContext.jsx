@@ -7,6 +7,7 @@ const StoreContextProvider = (props) => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [account, setAccount] = useState(null);
+  const [shipper, setShipper] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [categories, setCategories] = useState([]);
@@ -33,6 +34,9 @@ const StoreContextProvider = (props) => {
     if (isLogin) {
       fetchItemData(account.id);
       fetchOrderData(account.id);
+      if(account.role.role === "SHIPPER"){
+        fetchShipperInfo(account.id);
+      }
     }
   }, [isLogin]);
 
@@ -209,6 +213,19 @@ const StoreContextProvider = (props) => {
     fetchItemData(account.id);
   };
 
+
+   /* Lấy dữ liệu shipper */
+   const fetchShipperInfo = async (accountID) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8086/api/shipper/account/${accountID}`
+      );
+      setShipper(response.data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy thông tin shipper:", error);
+    }
+  };
+
   /* Đăng nhập */
   const handleLogin = async () => {
     try {
@@ -228,10 +245,11 @@ const StoreContextProvider = (props) => {
         setAccount(accountInfo);
         setUsername("");
         setPassword("");
-        if(accountInfo.role.role === "CUSTOMER"){
+        if (accountInfo.role.role === "CUSTOMER") {
           navigate("/");
-        }
-        else{
+        } else if (accountInfo.role.role === "SHIPPER") {
+          navigate("/giao-hang/nhan-don-hang");
+        } else {
           navigate("/quan-tri/");
         }
       } else {
@@ -279,6 +297,8 @@ const StoreContextProvider = (props) => {
     fetchProductDataByCategory,
     fetchItemData,
     fetchOrderData,
+    shipper,
+    fetchShipperInfo,
   };
 
   return (

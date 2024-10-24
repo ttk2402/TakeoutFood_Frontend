@@ -19,6 +19,10 @@ import OrdersPage from "./pages/admin/OrdersPage";
 import SettingsPage from "./pages/admin/SettingsPage";
 import SuccessPayment from "./pages/SuccessPayment";
 import FailurePayment from "./pages/FailurePayment";
+import ReceiveOrderPage from "./pages/shipper/ReceiveOrdersPage"
+import ProfilePage from "./pages/shipper/ProfilePage";
+import CurrentOrdersPage from "./pages/shipper/CurrentOrdersPage";
+import CompleteOrdersPage from "./pages/shipper/CompleteOrdersPage";
 
 function App() {
   return (
@@ -35,8 +39,8 @@ function App() {
         <Route path="/dang-nhap" element={<LoginPage />} />
         <Route path="/dang-ky" element={<RegistryPage />} />
         <Route path="/tai-khoan/:accountID" element={<AccountDetailPage />} />
-        <Route path="/thanh-toan-thanh-cong*" element={<SuccessPayment />} />
-        <Route path="/thanh-toan-that-bai*" element={<FailurePayment />} />
+        <Route path="/thanh-toan-thanh-cong/*" element={<SuccessPayment />} />
+        <Route path="/thanh-toan-that-bai/*" element={<FailurePayment />} />
         {/* Người quản trị */}
         <Route path="/quan-tri/" element={<OverviewPage />} />
         <Route path="/quan-tri/danh-muc" element={<CategoriesPage />} />
@@ -46,6 +50,11 @@ function App() {
         <Route path="/quan-tri/don-hang" element={<OrdersPage />} />
         <Route path="/quan-tri/doanh-thu" element={<SalesPage />} />
         <Route path="/quan-tri/cai-dat" element={<SettingsPage />} />
+        {/* Người quản trị */}
+        <Route path="/giao-hang/nhan-don-hang" element={<ReceiveOrderPage />} />
+        <Route path="/giao-hang/don-hang-hien-tai" element={<CurrentOrdersPage />} />
+        <Route path="/giao-hang/lich-su-giao-hang" element={<CompleteOrdersPage />} />
+        <Route path="/giao-hang/thong-tin-ca-nhan" element={<ProfilePage />} />
       </Routes>
     </>
   );

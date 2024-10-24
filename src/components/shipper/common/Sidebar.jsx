@@ -1,75 +1,49 @@
 import {
-  BarChart2,
-  DollarSign,
   Menu,
   Settings,
-  ShoppingBag,
   ShoppingCart,
-  TrendingUp,
-  Users,
   Package,
+  ShoppingBag,
+  LogOut,
 } from "lucide-react";
 import React, { useContext } from "react";
+import { useState, useEffect } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import profile_user from "../../../assets/profile-user.png";
 
 const SIDEBAR_ITEMS = [
   {
-    name: "Tổng quan",
-    icon: BarChart2,
-    color: "#6366f1",
-    href: "/quan-tri/",
-  },
-  {
-    name: "Quản lý danh mục",
-    icon: ShoppingBag,
-    color: "#8B5CF6",
-    href: "/quan-tri/danh-muc",
-  },
-  {
-    name: "Quản lý khuyến mãi",
-    icon: TrendingUp,
-    color: "#8B5CF6",
-    href: "/quan-tri/khuyen-mai",
-  },
-  {
-    name: "Quản lý sản phẩm",
+    name: "Nhận đơn hàng",
     icon: Package,
-    color: "#8B5CF6",
-    href: "/quan-tri/san-pham",
-  },
-  {
-    name: "Quản lý đơn hàng",
-    icon: ShoppingCart,
-    color: "#F59E0B",
-    href: "/quan-tri/don-hang",
-  },
-  {
-    name: "Quản lý tài khoản",
-    icon: Users,
-    color: "#EC4899",
-    href: "/quan-tri/tai-khoan",
-  },
-  {
-    name: "Thống kê doanh thu",
-    icon: DollarSign,
     color: "#10B981",
-    href: "/quan-tri/doanh-thu",
+    href: "/giao-hang/nhan-don-hang",
   },
   {
-    name: "Cài đặt",
+    name: "Đơn hàng hiện tại",
+    icon: ShoppingCart,
+    color: "#8B5CF6",
+    href: "/giao-hang/don-hang-hien-tai",
+  },
+  {
+    name: "Lịch sử giao hàng",
+    icon: ShoppingBag,
+    color: "#F59E0B",
+    href: "/giao-hang/lich-su-giao-hang",
+  },
+  {
+    name: "Thông tin cá nhân",
     icon: Settings,
-    color: "#6EE7B7",
-    href: "/quan-tri/cai-dat",
+    color: "#EC4899",
+    href: "/giao-hang/thong-tin-ca-nhan",
   },
 ];
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { isLogin, account } = useContext(StoreContext);
+  const { isLogin, account, shipper, handleLogout } = useContext(StoreContext);
+
   return (
     <motion.div
       className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
@@ -111,14 +85,32 @@ const Sidebar = () => {
               </motion.div>
             </Link>
           ))}
+          <div
+            onClick={handleLogout}
+            className="flex items-center p-4 font-bold text-black rounded-lg hover:bg-gray-300 transition-colors cursor-pointer"
+          >
+            <LogOut
+              size={24}
+              style={{ color: "#6366f1", minWidth: "24px" }}
+              className=""
+            />
+            <p className="ml-4">Đăng xuất</p>
+          </div>
         </nav>
         {isLogin && (
-          <div className="flex flex-col items-center">
-            <img src={profile_user} alt="" className="" />
-            <p className="font-bold text-center text-cyan-600 mt-2">
-             {account.username}
-            </p>
-          </div>
+          <>
+            <div className="flex flex-col items-center">
+              <img src={profile_user} alt="" className="" />
+              <p className="font-bold text-lg text-center text-cyan-600 mt-2">
+                {account ? account.username : ""}
+              </p>
+            </div>
+            <div className="mt-5">
+              <p className="font-bold text-xl text-center text-rose-700">
+                {shipper ? shipper.amount.toLocaleString("vi-VN") : "0"} VNĐ
+              </p>
+            </div>
+          </>
         )}
       </div>
     </motion.div>
