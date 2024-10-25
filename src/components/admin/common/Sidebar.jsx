@@ -8,6 +8,9 @@ import {
   TrendingUp,
   Users,
   Package,
+  Truck,
+  Percent,
+  Tag
 } from "lucide-react";
 import React, { useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
@@ -17,34 +20,34 @@ import { useState } from "react";
 import profile_user from "../../../assets/profile-user.png";
 
 const SIDEBAR_ITEMS = [
-  {
-    name: "Tổng quan",
-    icon: BarChart2,
-    color: "#6366f1",
-    href: "/quan-tri/",
-  },
+  // {
+  //   name: "Tổng quan",
+  //   icon: BarChart2,
+  //   color: "#6366f1",
+  //   href: "/quan-tri/",
+  // },
   {
     name: "Quản lý danh mục",
     icon: ShoppingBag,
-    color: "#8B5CF6",
+    color: "#1E88E5",
     href: "/quan-tri/danh-muc",
   },
   {
     name: "Quản lý khuyến mãi",
-    icon: TrendingUp,
-    color: "#8B5CF6",
+    icon: Tag,
+    color: "#616161",
     href: "/quan-tri/khuyen-mai",
   },
   {
     name: "Quản lý sản phẩm",
     icon: Package,
-    color: "#8B5CF6",
+    color: "#8E24AA",
     href: "/quan-tri/san-pham",
   },
   {
     name: "Quản lý đơn hàng",
     icon: ShoppingCart,
-    color: "#F59E0B",
+    color: "#FB8C00",
     href: "/quan-tri/don-hang",
   },
   {
@@ -54,15 +57,27 @@ const SIDEBAR_ITEMS = [
     href: "/quan-tri/tai-khoan",
   },
   {
-    name: "Thống kê doanh thu",
-    icon: DollarSign,
-    color: "#10B981",
-    href: "/quan-tri/doanh-thu",
+    name: "Quản lý shipper",
+    icon: Users,
+    color: "#43A047",
+    href: "/quan-tri/shipper",
   },
+  {
+    name: "Quản lý giao hàng",
+    icon: Truck,
+    color: "#F44336",
+    href: "/quan-tri/giao-hang",
+  },
+  // {
+  //   name: "Thống kê doanh thu",
+  //   icon: DollarSign,
+  //   color: "#10B981",
+  //   href: "/quan-tri/doanh-thu",
+  // },
   {
     name: "Cài đặt",
     icon: Settings,
-    color: "#6EE7B7",
+    color: "#6D4C41",
     href: "/quan-tri/cai-dat",
   },
 ];
@@ -116,7 +131,7 @@ const Sidebar = () => {
           <div className="flex flex-col items-center">
             <img src={profile_user} alt="" className="" />
             <p className="font-bold text-center text-cyan-600 mt-2">
-             {account.username}
+              {account.username}
             </p>
           </div>
         )}

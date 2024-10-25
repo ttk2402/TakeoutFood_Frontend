@@ -221,19 +221,19 @@ const Navbar = () => {
                 >
                   <div>
                     <img src={userset} alt="" />
-                    <p>Thông tin tài khoản</p>
+                    <p className="font-medium">Thông tin tài khoản</p>
                   </div>
                 </li>
                 <li className="w-full" onClick={handleOrderClick}>
                   <div>
                     <img src={bag} alt="" />
-                    <p>Quản lý đơn hàng</p>
+                    <p className="font-medium">Quản lý đơn hàng</p>
                   </div>
                 </li>
                 <li className="w-full" onClick={handleLogout}>
                   <div>
                     <img src={logout} alt="" />
-                    <p>Đăng xuất</p>
+                    <p className="font-medium">Đăng xuất</p>
                   </div>
                 </li>
               </ul>

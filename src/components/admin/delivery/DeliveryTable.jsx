@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import check_mark from "../../../assets/check-mark.png";
 
-const CompleteOrdersTable = () => {
+const DeliveryTable = () => {
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const ship_cost = 15000;
   //Phân trang
   const ORDERS_PER_PAGE = 5;
   const indexOfLastOrder = currentPage * ORDERS_PER_PAGE;
@@ -44,7 +44,7 @@ const CompleteOrdersTable = () => {
   const fetchOrderData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8086/api/delivery_order/complete"
+        "http://localhost:8086/api/delivery_order/all"
       );
       const allOrders = response.data;
       setOrders(allOrders);
@@ -71,7 +71,10 @@ const CompleteOrdersTable = () => {
                   ID
                 </th>
                 <th className="px-2 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider text-center">
-                  Cost
+                  Status
+                </th>
+                <th className="px-2 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider text-center">
+                  Shipper ID
                 </th>
                 <th className="px-2 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider text-center">
                   Receive Date
@@ -99,20 +102,35 @@ const CompleteOrdersTable = () => {
                     {order.id}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
-                    {ship_cost.toLocaleString("vi-VN")}đ
+                    {order.isCompleted ? (
+                      <img
+                        src={check_mark}
+                        alt=""
+                        className="w-7 h-7 rounded-full object-cover mx-auto"
+                      />
+                    ) : (
+                      "_"
+                    )}
+                  </td>
+                  <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
+                    {order.shipper.id}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
                     {order.receiveDate}
                   </td>
                   <td className="py-2 whitespace-nowrap font-medium text-rose-950 text-center">
-                    {order.completeDate}
+                    {order.completeDate || "_"}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
-                    <img
-                      src={`http://localhost:8086${order.imageConfirmation}`}
-                      alt=""
-                      className="w-12 h-12 rounded-md object-cover mx-auto"
-                    />
+                    {order.imageConfirmation ? (
+                      <img
+                        src={`http://localhost:8086${order.imageConfirmation}`}
+                        alt="Confirmation"
+                        className="w-12 h-12 rounded-md object-cover mx-auto"
+                      />
+                    ) : (
+                      "_"
+                    )}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
                     {order.orderId}
@@ -156,4 +174,4 @@ const CompleteOrdersTable = () => {
     </>
   );
 };
-export default CompleteOrdersTable;
+export default DeliveryTable;

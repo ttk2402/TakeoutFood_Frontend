@@ -46,7 +46,7 @@ const CurrentOrdersTable = () => {
   const fetchDeliveryOrderData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8086/api/delivery_order/current/"
+        "http://localhost:8086/api/delivery_order/current"
       );
       const allOrders = response.data;
       setOrders(allOrders);

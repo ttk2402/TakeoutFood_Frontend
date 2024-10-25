@@ -23,6 +23,8 @@ import ReceiveOrderPage from "./pages/shipper/ReceiveOrdersPage"
 import ProfilePage from "./pages/shipper/ProfilePage";
 import CurrentOrdersPage from "./pages/shipper/CurrentOrdersPage";
 import CompleteOrdersPage from "./pages/shipper/CompleteOrdersPage";
+import ShippersPage from "./pages/admin/ShippersPages";
+import DeliveryPage from "./pages/admin/DeliveryPage";
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
         <Route path="/quan-tri/san-pham" element={<ProductsPage />} />
         <Route path="/quan-tri/tai-khoan" element={<AccountsPage />} />
         <Route path="/quan-tri/don-hang" element={<OrdersPage />} />
+        <Route path="/quan-tri/shipper" element={<ShippersPage />} />
+        <Route path="/quan-tri/giao-hang" element={<DeliveryPage />} />
         <Route path="/quan-tri/doanh-thu" element={<SalesPage />} />
         <Route path="/quan-tri/cai-dat" element={<SettingsPage />} />
         {/* Người quản trị */}
