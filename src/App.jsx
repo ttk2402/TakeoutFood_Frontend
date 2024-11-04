@@ -44,7 +44,6 @@ function App() {
         <Route path="/thanh-toan-thanh-cong/*" element={<SuccessPayment />} />
         <Route path="/thanh-toan-that-bai/*" element={<FailurePayment />} />
         {/* Người quản trị */}
-        <Route path="/quan-tri/" element={<OverviewPage />} />
         <Route path="/quan-tri/danh-muc" element={<CategoriesPage />} />
         <Route path="/quan-tri/khuyen-mai" element={<DiscountsPage />} />
         <Route path="/quan-tri/san-pham" element={<ProductsPage />} />
@@ -52,7 +51,7 @@ function App() {
         <Route path="/quan-tri/don-hang" element={<OrdersPage />} />
         <Route path="/quan-tri/shipper" element={<ShippersPage />} />
         <Route path="/quan-tri/giao-hang" element={<DeliveryPage />} />
-        <Route path="/quan-tri/doanh-thu" element={<SalesPage />} />
+        <Route path="/quan-tri/doanh-thu/*" element={<SalesPage />} />
         <Route path="/quan-tri/cai-dat" element={<SettingsPage />} />
         {/* Người quản trị */}
         <Route path="/giao-hang/nhan-don-hang" element={<ReceiveOrderPage />} />

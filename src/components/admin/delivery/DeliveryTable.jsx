@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import check_mark from "../../../assets/check-mark.png";
+import { Edit, Trash2, Search } from "lucide-react";
 
 const DeliveryTable = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +12,8 @@ const DeliveryTable = () => {
   const [filterStatus, setFilterStatus] = useState("");
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  //Phân trang
+
+  // Phân trang
   const ORDERS_PER_PAGE = 5;
   const indexOfLastOrder = currentPage * ORDERS_PER_PAGE;
   const indexOfFirstOrder = indexOfLastOrder - ORDERS_PER_PAGE;
@@ -20,22 +22,30 @@ const DeliveryTable = () => {
     indexOfLastOrder
   );
   const totalPages = Math.ceil(filteredOrders.length / ORDERS_PER_PAGE);
+
   useEffect(() => {
     fetchOrderData();
   }, []);
 
   useEffect(() => {
     let filtered = orders;
+
+    // Tìm kiếm theo ID đơn hàng hoặc Shipper ID
     if (searchTerm) {
-      filtered = filtered.filter((order) =>
-        order.id.toString().includes(searchTerm)
+      filtered = filtered.filter(
+        (order) =>
+          order.id.toString().includes(searchTerm) ||
+          (order.shipper && order.shipper.id.toString().includes(searchTerm))
       );
     }
+
+    // Lọc theo trạng thái
     if (filterStatus) {
       filtered = filtered.filter(
         (order) => order.orderStatus.id === Number(filterStatus)
       );
     }
+
     setFilteredOrders(filtered);
     setCurrentPage(1);
   }, [searchTerm, filterStatus, orders]);
@@ -62,6 +72,29 @@ const DeliveryTable = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-bold text-fuchsia-900">
+            Danh sách đơn hàng giao
+          </h2>
+ 
+
+          {/* Tìm kiếm */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Tìm kiếm đơn hàng..."
+              className="bg-gray-100 text-black placeholder-gray-500 border-gray-200 rounded-lg pl-10 pr-4 py-2 focus:ring-blue-200"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+            />
+            <Search
+              className="absolute left-3 top-2.5 text-gray-500"
+              size={18}
+            />
+          </div>
+
+        </div>
+
         {/* Bảng đơn hàng */}
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -140,6 +173,7 @@ const DeliveryTable = () => {
             </tbody>
           </table>
         </div>
+
         {/* Phân trang */}
         <div className="flex justify-between mt-4">
           <button
@@ -174,4 +208,5 @@ const DeliveryTable = () => {
     </>
   );
 };
+
 export default DeliveryTable;

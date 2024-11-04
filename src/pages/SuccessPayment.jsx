@@ -1,12 +1,47 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { StoreContext } from "../components/Context/StoreContext";
 import { useLocation } from "react-router-dom";
 import success from "../assets/success.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SuccessPayment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search); // Lấy tham số từ search
+
+  const {
+    account,
+    orderInfoID,
+    setOrderInfoID,
+    fetchItemData,
+    fetchOrderData,
+  } = useContext(StoreContext); // Nhận dữ liệu từ StoreContext
+
+  useEffect(() => {
+    if (account && orderInfoID) {
+      addNewOrder(account.id, orderInfoID);
+    }
+  }, [account, orderInfoID]);
+
+  const addNewOrder = async (accountID, orderInfoID) => {
+    /* Gọi API để thêm Order với tham số CheckoutID và OrderInfoID */
+    try {
+      const response = await axios.post(
+        `http://localhost:8084/api/order/add/2/${orderInfoID}`,
+        {
+          accountId: accountID,
+        }
+      );
+      console.log(response.data);
+      setOrderInfoID(null);
+      fetchItemData(accountID);
+      fetchOrderData(accountID);
+    } catch (error) {
+      console.error("Lỗi khi gọi API thêm Order:", error);
+    }
+  };
 
   // Lấy thông tin từ query parameters
   const message = "Thanh toán thành công !";

@@ -95,7 +95,7 @@ const ShipperrsTable = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-bold text-fuchsia-900">
             Danh sách shipper
           </h2>
@@ -152,13 +152,21 @@ const ShipperrsTable = () => {
                 </div>
                 <div>
                   <p className="text-center font-medium">
-                    {selectedShipper.payment.bankName}
+                    {selectedShipper.payment && selectedShipper.payment.bankName
+                      ? selectedShipper.payment.bankName
+                      : "____"}
                   </p>
                   <p className="font-medium">
-                    {selectedShipper.payment.numberCard}
+                    {selectedShipper.payment &&
+                    selectedShipper.payment.numberCard
+                      ? selectedShipper.payment.numberCard
+                      : "____"}
                   </p>
                   <p className="text-center font-medium">
-                    {selectedShipper.payment.cardHolderName}
+                    {selectedShipper.payment &&
+                    selectedShipper.payment.cardHolderName
+                      ? selectedShipper.payment.cardHolderName
+                      : "____"}
                   </p>
                 </div>
               </div>
@@ -241,7 +249,7 @@ const ShipperrsTable = () => {
                   <td className="px-4 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
                     <button
                       onClick={() => handleEditClick(shipper)}
-                      className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-300 to-blue-500 group-hover:from-green-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-100 dark:focus:ring-green-600"
+                      className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-300 to-blue-500 group-hover:from-green-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-2 focus:outline-none focus:ring-green-100 dark:focus:ring-green-600"
                     >
                       <span className="relative px-4 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                         Chuyển khoản

@@ -28,13 +28,19 @@ const StoreContextProvider = (props) => {
     fetchCategoryData();
     fetchProductData();
     fetchCheckoutData();
+
+    //test
+    const storedOrderInfoID = sessionStorage.getItem("orderInfoID");
+    if (storedOrderInfoID) {
+      setOrderInfoID(storedOrderInfoID); // Lưu trực tiếp như một chuỗi
+    }
   }, []);
 
   useEffect(() => {
     if (isLogin) {
       fetchItemData(account.id);
       fetchOrderData(account.id);
-      if(account.role.role === "SHIPPER"){
+      if (account.role.role === "SHIPPER") {
         fetchShipperInfo(account.id);
       }
     }
@@ -213,9 +219,8 @@ const StoreContextProvider = (props) => {
     fetchItemData(account.id);
   };
 
-
-   /* Lấy dữ liệu shipper */
-   const fetchShipperInfo = async (accountID) => {
+  /* Lấy dữ liệu shipper */
+  const fetchShipperInfo = async (accountID) => {
     try {
       const response = await axios.get(
         `http://localhost:8086/api/shipper/account/${accountID}`
@@ -250,7 +255,7 @@ const StoreContextProvider = (props) => {
         } else if (accountInfo.role.role === "SHIPPER") {
           navigate("/giao-hang/nhan-don-hang");
         } else {
-          navigate("/quan-tri/");
+          navigate("/quan-tri/doanh-thu/ngay");
         }
       } else {
         console.log("Mật khẩu không chính xác hoặc tài khoản đã bị khóa");
@@ -271,6 +276,12 @@ const StoreContextProvider = (props) => {
     setItems([]);
     navigate("/");
   };
+
+  /* Thuộc tính để thêm OrderInfo để lấy ID để dùng gọi api thêm đơn hàng */
+  const [orderInfoID, setOrderInfoID] = useState(null);
+  useEffect(() => {
+    sessionStorage.setItem("orderInfoID", orderInfoID); // Lưu trực tiếp như một chuỗi
+  }, [orderInfoID]);
 
   /* Dành cho giao diện quản trị */
 
@@ -299,6 +310,8 @@ const StoreContextProvider = (props) => {
     fetchOrderData,
     shipper,
     fetchShipperInfo,
+    orderInfoID,
+    setOrderInfoID,
   };
 
   return (

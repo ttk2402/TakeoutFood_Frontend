@@ -9,24 +9,32 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const product = {
-      id,
-      name,
-      price,
-      url_image_product,
-    };
-    addItemFromDetail(product, quantity, account.id);
+    if (account == null) {
+      console.log("Bạn cần đăng nhập mới thêm vào giỏ hàng được !");
+    } else {
+      const product = {
+        id,
+        name,
+        price,
+        url_image_product,
+      };
+      addItemFromDetail(product, quantity, account.id);
+    }
   };
 
   const handleBuyNow = () => {
-    const product = {
-      id,
-      name,
-      price,
-      url_image_product,
-    };
-    addItemFromDetail(product, quantity, account.id);
-    navigate("/gio-hang");
+    if (account == null) {
+      console.log("Bạn cần đăng nhập mới đặt hàng ngay được !");
+    } else {
+      const product = {
+        id,
+        name,
+        price,
+        url_image_product,
+      };
+      addItemFromDetail(product, quantity, account.id);
+      navigate("/gio-hang");
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
             <h1 className="text-xl font-bold">{name}</h1>
           </div>
           <h6 className="text-base font-medium">
-            Giá: {price ? price.toLocaleString("vi-VN") : ""} 
+            Giá: {price ? price.toLocaleString("vi-VN") : ""}
             <span className="underline">đ</span>
           </h6>
           <p className="text-base font-medium">Thương hiệu: TAKEOUT FOOD</p>
@@ -88,7 +96,7 @@ const ProductDetail = ({ id, name, price, description, url_image_product }) => {
               className="btn btn-sm py-3 bg-violet-800 text-white font-semibold px-2.5 rounded-xl h-full"
               onClick={handleBuyNow}
             >
-              Mua ngay
+              Đặt hàng ngay
             </button>
           </div>
         </div>

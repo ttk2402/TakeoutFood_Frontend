@@ -13,7 +13,7 @@ const CartPage = () => {
         <div className="w-2/3 border-2 border-white p-5">
           <ItemList items={items} />
         </div>
-        <div className="w-1/3 border-2 border-white p-5">
+        <div className="w-1/3 border-2 border-white p-5 flex justify-end">
           <OrderInfo />
         </div>
       </div>

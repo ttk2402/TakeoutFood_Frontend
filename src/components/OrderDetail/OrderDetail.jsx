@@ -5,7 +5,7 @@ import axios from "axios";
 
 const OrderDetail = ({ order }) => {
   const { account, fetchOrderData } = useContext(StoreContext);
-  const shippingCost = 0;
+  const shippingCost = 15000;
   /* Gọi API hủy đơn hàng*/
   const cancelOrder = async (orderID) => {
     try {
@@ -90,7 +90,7 @@ const OrderDetail = ({ order }) => {
           Tổng số sản phẩm: {order.itemOrdereds.length}
         </p>
         <p className="text-sm font-medium p-1">
-          Tổng tiền hàng: {order.totalprice.toLocaleString("vi-VN")}
+          Tổng tiền hàng: {(order.totalprice - 15000).toLocaleString("vi-VN")}
           <span className="text-sm font-bold underline">đ</span>
         </p>
         <p className="text-sm font-medium p-1">

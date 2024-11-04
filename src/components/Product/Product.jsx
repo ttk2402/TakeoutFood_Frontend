@@ -8,7 +8,12 @@ const Product = ({ product }) => {
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    addItem(product, account.id);
+    if (account == null) {
+      console.log("Bạn cần đăng nhập mới thêm vào giỏ hàng được !");
+      navigate("/dang-nhap");
+    } else {
+      addItem(product, account.id);
+    }
   };
 
   const handleProductClick = (id) => {

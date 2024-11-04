@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { StoreContext } from "../components/Context/StoreContext";
 import { useLocation } from "react-router-dom";
 import failure from "../assets/failure.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FailurePayment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search); // Lấy tham số từ search
+
+  const { orderInfoID, setOrderInfoID } = useContext(StoreContext); // Nhận dữ liệu từ StoreContext
+
+  useEffect(() => {
+    if (orderInfoID) {
+      deleteOrderInfoByID(orderInfoID);
+    }
+  }, [orderInfoID]);
+
+  const deleteOrderInfoByID = async (orderInfoID) => {
+    /* Gọi API để xóa Delivery Information với OrderInfoID */
+    try {
+      const response = await axios.delete(
+        `http://localhost:8084/api/delivery_information/${orderInfoID}`
+      );
+      console.log(response.data);
+      setOrderInfoID(null);
+    } catch (error) {
+      console.error("Lỗi khi gọi API xóa Delivery Information:", error);
+    }
+  };
 
   // Lấy thông tin từ query parameters
   const message = "Thanh toán thất bại !";

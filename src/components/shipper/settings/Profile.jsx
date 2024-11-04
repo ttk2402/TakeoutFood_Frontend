@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { StoreContext } from "../../Context/StoreContext";
-import { User } from "lucide-react";
+import { User, CreditCard } from "lucide-react";
 import SettingSection from "./SettingSection";
 import axios from "axios";
 
@@ -105,7 +105,7 @@ const Profile = () => {
 
   return (
     <>
-      <SettingSection icon={User} title={"Chi tiết thông tin"}>
+      <SettingSection icon={User} title={"Thông tin cá nhân"}>
         <div className="flex justify-center my-5">
           <div className="flex flex-col items-end">
             <div className="mb-3.5">
@@ -213,7 +213,7 @@ const Profile = () => {
           </button>
         </div>
       </SettingSection>
-      <SettingSection icon={User} title={"Tài khoản thanh toán"}>
+      <SettingSection icon={CreditCard} title={"Thông tin thanh toán"}>
         <div className="flex justify-center my-5">
           <div className="flex flex-col items-end">
             <div className="mb-3.5">

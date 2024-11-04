@@ -10,7 +10,7 @@ import {
   Package,
   Truck,
   Percent,
-  Tag
+  Tag,
 } from "lucide-react";
 import React, { useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
@@ -26,6 +26,12 @@ const SIDEBAR_ITEMS = [
   //   color: "#6366f1",
   //   href: "/quan-tri/",
   // },
+  {
+    name: "Thống kê doanh thu",
+    icon: DollarSign,
+    color: "#10B981",
+    href: "/quan-tri/doanh-thu",
+  },
   {
     name: "Quản lý danh mục",
     icon: ShoppingBag,
@@ -68,12 +74,6 @@ const SIDEBAR_ITEMS = [
     color: "#F44336",
     href: "/quan-tri/giao-hang",
   },
-  // {
-  //   name: "Thống kê doanh thu",
-  //   icon: DollarSign,
-  //   color: "#10B981",
-  //   href: "/quan-tri/doanh-thu",
-  // },
   {
     name: "Cài đặt",
     icon: Settings,

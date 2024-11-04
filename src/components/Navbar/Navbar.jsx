@@ -180,7 +180,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={handleCartClick}
-                    className="text-white font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
+                    className="text-white font-bold rounded-lg text-sm px-5 py-2.5 text-center bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
                   >
                     Xem giỏ hàng
                   </button>

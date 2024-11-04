@@ -1,83 +1,72 @@
-import { motion } from "framer-motion";
 import Header from "../../components/admin/common/Header";
-import StatCard from "../../components/admin/common/StatCard";
-import { DollarSign, ShoppingCart } from "lucide-react";
-import SalesOverviewChart from "../../components/admin/sales/SalesOverviewChart";
-import SalesByCategoryChart from "../../components/admin/sales/SalesByCategoryChart";
 import Sidebar from "../../components/admin/common/Sidebar";
-import axios from "axios";
-import { useState, useEffect } from "react";
-
-const salesStats = {
-  totalRevenue: "$1,234,567",
-  averageOrderValue: "$78.90",
-  conversionRate: "3.45%",
-  salesGrowth: "12.3%",
-};
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import RevenueChart from "../../components/admin/revenue/RevenueChart";
+import RevenueMonthChart from "../../components/admin/revenue/RevenueMonthChart";
+import RevenueYearChart from "../../components/admin/revenue/RevenueYearChart";
+import { useEffect } from "react";
 
 const SalesPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [revenue, setRevenue] = useState(0);
-  const [order, setOrder] = useState(0);
-
+  // Điều hướng mặc định đến "ngay" khi trang được tải
   useEffect(() => {
-   fetchTotalRevenue();
-   fetchTotalOrder();
-  }, []);
-
-  const fetchTotalRevenue = async () => {
-    try {
-      const response = await axios.get("http://localhost:8084/api/revenue/");
-      setRevenue(response.data.revenue);
-    } catch (error) {
-      console.error("Lỗi khi gọi API lấy doanh thu:", error);
+    if (location.pathname === "/quan-tri/doanh-thu") {
+      navigate("ngay");
     }
-  };
-
-  const fetchTotalOrder = async () => {
-    try {
-      const response = await axios.get("http://localhost:8084/api/order/totalOrder");
-      setOrder(response.data.total);
-      console.log(response.data.total);
-    } catch (error) {
-      console.error("Lỗi khi gọi API lấy tổng số đơn hàng:", error);
-    }
-  };
+  }, [location, navigate]);
 
   return (
-    <div className='flex h-screen text-black overflow-hidden'>
+    <div className="flex h-screen text-black overflow-hidden">
       <Sidebar />
-    <div className="bg-gray-100 flex-1 overflow-auto relative z-10 border-r-2 border-b-2 border-gray-200">
-      <Header title="Thống kê doanh thu" />
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-        {/* SALES STATS */}
-        <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <StatCard
-            name="Tổng Doanh Thu"
-            icon={DollarSign}
-            value={revenue?revenue.toLocaleString("vi-VN"):0}
-            color="#6366F1"
-          />
-          <StatCard
-            name="Tổng Số Đơn Hàng"
-            icon={ShoppingCart}
-            value={order}
-            color="#6366F1"
-          />
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <SalesOverviewChart />
-          <SalesByCategoryChart />
-        </div>
-      </main>
-    </div>
+      <div className="bg-gray-100 flex-1 overflow-auto relative z-10 border-r-2 border-b-2 border-gray-200">
+        <Header title="Thống kê doanh thu" />
+        <main className="max-w-7xl mx-auto py-4 px-4 lg:px-8">
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={() => navigate("ngay")}
+              className={`relative mx-2 inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium rounded-lg group ${
+                location.pathname.endsWith("/ngay") ? "text-gray-700 bg-gradient-to-br from-green-400 to-blue-400" : "text-gray-900 bg-gradient-to-br from-green-200 to-blue-200"
+              } hover:bg-blue-400 focus:ring-2 focus:outline-none focus:ring-green-100`}
+            >
+              <span className="relative px-2 py-1.5 transition-all ease-in duration-75 rounded-md">
+                Thống kê theo ngày
+              </span>
+            </button>
+            <button
+              onClick={() => navigate("thang")}
+              className={`relative mx-2 inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium rounded-lg group ${
+                location.pathname.endsWith("/thang") ? "text-gray-700 bg-gradient-to-br from-green-400 to-blue-400" : "text-gray-900 bg-gradient-to-br from-green-200 to-blue-200"
+              } hover:bg-blue-400 focus:ring-2 focus:outline-none focus:ring-green-100`}
+            >
+              <span className="relative px-2 py-1.5 transition-all ease-in duration-75 rounded-md">
+                Thống kê theo tháng
+              </span>
+            </button>
+            <button
+              onClick={() => navigate("nam")}
+              className={`relative mx-2 inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium rounded-lg group ${
+                location.pathname.endsWith("/nam") ? "text-gray-700 bg-gradient-to-br from-green-400 to-blue-400" : "text-gray-900 bg-gradient-to-br from-green-200 to-blue-200"
+              } hover:bg-blue-400 focus:ring-2 focus:outline-none focus:ring-green-100`}
+            >
+              <span className="relative px-2 py-1.5 transition-all ease-in duration-75 rounded-md">
+                Thống kê theo năm
+              </span>
+            </button>
+          </div>
+          <div className="flex flex-col">
+            <Routes>
+              {/* Định nghĩa các route con */}
+              <Route path="ngay" element={<RevenueChart />} />
+              <Route path="thang" element={<RevenueMonthChart />} />
+              <Route path="nam" element={<RevenueYearChart />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
+
 export default SalesPage;

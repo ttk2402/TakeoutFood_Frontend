@@ -5,12 +5,12 @@ const ItemList = ({ items }) => {
   const totalPrice = items.reduce((total, item) => total + item.price, 0);
 
   return (
-    <div className="item-list flex flex-col w-full">
+    <div className="item-list flex flex-col items-center w-full">
       <table className="table">
         <thead>
           <tr>
             <th className="text-center font-bold text-sm">Sản phẩm</th>
-            <th className="text-center font-bol text-sm">Giá</th>
+            <th className="text-center font-bold text-sm">Giá</th>
             <th className="text-center font-bold text-sm">Số lượng</th>
             <th className="text-center font-bold text-sm">Tổng giá tiền</th>
             <th className="text-center font-bold text-sm"></th>
