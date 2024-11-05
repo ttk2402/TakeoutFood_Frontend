@@ -22,7 +22,7 @@ const SalesPage = () => {
       <Sidebar />
       <div className="bg-gray-100 flex-1 overflow-auto relative z-10 border-r-2 border-b-2 border-gray-200">
         <Header title="Thống kê doanh thu" />
-        <main className="max-w-7xl mx-auto py-4 px-4 lg:px-8">
+        <main className="max-w-7xl mx-auto pt-6 pb-4 px-4">
           <div className="flex justify-center mb-4">
             <button
               onClick={() => navigate("ngay")}

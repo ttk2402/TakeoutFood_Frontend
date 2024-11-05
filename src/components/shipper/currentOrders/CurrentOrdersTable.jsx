@@ -77,7 +77,7 @@ const CurrentOrdersTable = () => {
     setSelectedDeliveryOrder(deliveryOrder);
     setIsUploadModalOpen(true);
   };
-  // Gọi API cập nhật khuyến mãi
+  // Gọi API hoàn thành đơn hàng giao
   const completeDeliveryOrder = async () => {
     const formData = new FormData();
     formData.append("image", selectedImage); // Giả định API yêu cầu tệp hình ảnh với khóa 'image'

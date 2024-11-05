@@ -64,6 +64,33 @@ const DeliveryTable = () => {
     }
   };
 
+  // Gọi API lấy danh sách đơn hàng
+  const confirmDeliverySuccess = async (deliveryOrderID, shipperID) => {
+    try {
+      await axios.put(
+        `http://localhost:8086/api/delivery_order/complete/confirm/${deliveryOrderID}/${shipperID}`
+      );
+      fetchOrderData();
+    } catch (error) {
+      console.error(
+        "Lỗi khi gọi API xác nhận đơn hàng đã giao thành công:",
+        error
+      );
+    }
+  };
+
+  // Gọi API lấy danh sách đơn hàng
+  const deleteDeliveryOrder = async (deliveryOrderID) => {
+    try {
+      await axios.delete(
+        `http://localhost:8086/api/delivery_order/${deliveryOrderID}`
+      );
+      fetchOrderData();
+    } catch (error) {
+      console.error("Lỗi khi gọi API xóa đơn hàng đã giao:", error);
+    }
+  };
+
   return (
     <>
       <motion.div
@@ -76,7 +103,6 @@ const DeliveryTable = () => {
           <h2 className="text-lg font-bold text-fuchsia-900">
             Danh sách đơn hàng giao
           </h2>
- 
 
           {/* Tìm kiếm */}
           <div className="relative">
@@ -92,7 +118,6 @@ const DeliveryTable = () => {
               size={18}
             />
           </div>
-
         </div>
 
         {/* Bảng đơn hàng */}
@@ -121,6 +146,9 @@ const DeliveryTable = () => {
                 <th className="px-2 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider text-center">
                   Order ID
                 </th>
+                <th className="px-4 py-3 text-left text-sm font-bold text-indigo-900 uppercase tracking-wider text-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -142,7 +170,14 @@ const DeliveryTable = () => {
                         className="w-7 h-7 rounded-full object-cover mx-auto"
                       />
                     ) : (
-                      "_"
+                      <button
+                        onClick={() =>
+                          confirmDeliverySuccess(order.id, order.shipper.id)
+                        }
+                        className="btn btn-sm bg-green-400 hover:bg-green-500 text-white"
+                      >
+                        Xác nhận
+                      </button>
                     )}
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
@@ -167,6 +202,14 @@ const DeliveryTable = () => {
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
                     {order.orderId}
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-300 text-center">
+                    <button
+                      className="text-red-400 hover:text-red-300"
+                      onClick={() => deleteDeliveryOrder(order.id)}
+                    >
+                      <Trash2 size={20} />
+                    </button>
                   </td>
                 </motion.tr>
               ))}

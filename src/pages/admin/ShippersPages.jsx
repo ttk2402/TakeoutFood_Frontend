@@ -8,7 +8,7 @@ const ShippersPage = () => {
       <Sidebar />
       <div className="bg-gray-100 flex-1 overflow-auto relative z-10 border-r-2 border-b-2 border-gray-200">
         <Header title="Quản lý tài khoản" />
-        <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+        <main className="max-w-7xl mx-auto p-5">
           <ShipperrsTable />
         </main>
       </div>
