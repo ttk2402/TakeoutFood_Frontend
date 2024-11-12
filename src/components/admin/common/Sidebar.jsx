@@ -20,12 +20,6 @@ import { useState } from "react";
 import profile_user from "../../../assets/profile-user.png";
 
 const SIDEBAR_ITEMS = [
-  // {
-  //   name: "Tổng quan",
-  //   icon: BarChart2,
-  //   color: "#6366f1",
-  //   href: "/quan-tri/",
-  // },
   {
     name: "Thống kê doanh thu",
     icon: DollarSign,

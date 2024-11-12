@@ -9,7 +9,6 @@ import OrderPage from "./pages/OrderPage";
 import LoginPage from "./pages/LoginPage";
 import RegistryPage from "./pages/RegistryPage";
 import AccountDetailPage from "./pages/AccountDetailPage";
-import OverviewPage from "./pages/admin/OverviewPage";
 import CategoriesPage from "./pages/admin/CategoriesPage";
 import DiscountsPage from "./pages/admin/DiscountsPage";
 import ProductsPage from "./pages/admin/ProductsPage";
