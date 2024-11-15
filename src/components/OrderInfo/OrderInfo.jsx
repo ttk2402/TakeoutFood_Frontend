@@ -197,7 +197,7 @@ const ReceiveInfo = () => {
             Thông tin đặt hàng
           </p>
         </div>
-        <hr class="border-t border-gray-300 my-2" />
+        <hr className="border-t border-gray-300 my-2" />
         <div>
           <div className="mb-2.5">
             <div className="flex items-center">
