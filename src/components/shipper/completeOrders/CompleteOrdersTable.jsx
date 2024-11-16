@@ -109,7 +109,7 @@ const CompleteOrdersTable = () => {
                   </td>
                   <td className="px-2 py-2 whitespace-nowrap font-medium text-rose-950 text-center">
                     <img
-                      src={`http://localhost:8086${order.imageConfirmation}`}
+                      src={order.imageConfirmation}
                       alt=""
                       className="w-12 h-12 rounded-md object-cover mx-auto"
                     />
